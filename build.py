@@ -463,14 +463,17 @@ def speaker_mini(year):
             alt = re.sub(r"&amp;", "and", s["name"])
             avatar = (f'<img class="mini-speaker__photo" src="assets/img/speakers/{p}.jpg" '
                       f'srcset="assets/img/speakers/{p}.jpg 1x, assets/img/speakers/{p}@2x.jpg 2x" '
-                      f'alt="{alt}" width="48" height="48" loading="lazy" decoding="async">')
+                      f'alt="{alt}" width="120" height="120" loading="lazy" decoding="async">')
         else:
             avatar = f'<div class="mini-speaker__badge">{s["badge"]}</div>'
+        # Strip company from role for display (keep it concise under the photo)
+        role_parts = s["role"].split(" &middot; ")
+        company = role_parts[-1] if role_parts else s["role"]
         cards.append(
             f'<div class="mini-speaker">'
             f'{avatar}'
-            f'<div><p class="mini-speaker__name">{s["name"]}</p>'
-            f'<p class="mini-speaker__role">{s["role"]}</p></div>'
+            f'<p class="mini-speaker__name">{s["name"]}</p>'
+            f'<p class="mini-speaker__role">{company}</p>'
             f'</div>'
         )
     return '<div class="mini-speaker-grid">' + "".join(cards) + '</div>'
