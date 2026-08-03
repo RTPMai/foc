@@ -2,7 +2,7 @@
 
 > The Midwest's conference for screen printers and decorators. Presented by P&M Apparel, Polk City, Iowa.
 
-Flyover Con is a hands-on, free-to-attend conference for Midwest screen printers and decorators, hosted inside P&M Apparel's working production facility. No vendor booths, no sales pitches — real shop-floor learning from people who run print and embroidery shops every day.
+Flyover Con is a hands-on, free-to-attend conference for Midwest screen printers and decorators, hosted inside P&M Apparel's working production facility. No vendor booths, no sales pitches &ndash; real shop-floor learning from people who run print and embroidery shops every day.
 
 Most recent event: FOC26, April 17-18, 2026, in Polk City, Iowa. 16 sessions across two days, 19 speakers, hosted on the P&M Apparel shop floor.
 
@@ -13,4 +13,4 @@ No future event is scheduled as of August 2026.
 - Speakers: https://www.flyovercon.ink/speakers.html
 - Location: https://www.flyovercon.ink/location.html
 - Contact: ryan@flyovercon.ink
-- Presented by: P&M Apparel — https://www.pmapparel.com
+- Presented by: P&M Apparel &ndash; https://www.pmapparel.com
