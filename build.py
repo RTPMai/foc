@@ -327,7 +327,7 @@ def footer():
     <div class="site-footer__top">
       <div class="site-footer__logo">
         <img src="assets/img/logo-compact.png" alt="Flyover Con logo" width="120" height="113">
-        <p style="max-width:32ch;color:rgba(255,255,255,0.65);font-size:0.92rem;">{TAGLINE}</p>
+        <p class="site-footer__tagline">{TAGLINE}</p>
         <div class="social-links" style="margin-top:14px;">
           <a href="{IG}" aria-label="Flyover Con on Instagram" rel="noopener" target="_blank">IG</a>
           <a href="{FB}" aria-label="Flyover Con on Facebook" rel="noopener" target="_blank">FB</a>

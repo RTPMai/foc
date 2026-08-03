@@ -365,7 +365,11 @@ section{ padding:64px 0; }
 /* ---------- Footer ---------- */
 .site-footer{ background:var(--navy-deep); color:rgba(255,255,255,0.75); padding:56px 0 28px; }
 .site-footer__top{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:32px; margin-bottom:40px; }
-.site-footer__logo img{ height:56px; margin-bottom:12px; }
+.site-footer__logo img{ height:56px; width:auto; margin-bottom:12px; }
+.site-footer__tagline{
+  max-width:36ch; color:rgba(255,255,255,0.82);
+  font-size:1rem; line-height:1.65; margin:0;
+}
 .site-footer__nav{ display:flex; gap:48px; flex-wrap:wrap; }
 .site-footer__col{ margin-right:8px; min-width:160px; }
 .site-footer__col h5{
