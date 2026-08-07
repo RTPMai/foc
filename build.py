@@ -105,7 +105,7 @@ SPEAKERS = [
     "years": [
       "2026"
     ],
-    "photo": None
+    "photo": "amy-benton"
   },
   {
     "badge": "MB",
@@ -125,7 +125,7 @@ SPEAKERS = [
     "years": [
       "2026"
     ],
-    "photo": None
+    "photo": "paul-gormley"
   },
   {
     "badge": "JS",
