@@ -412,8 +412,8 @@ def footer():
         <img src="assets/img/logo-compact.png" alt="Flyover Con logo" width="120" height="113">
         <p class="site-footer__tagline">{TAGLINE}</p>
         <div class="social-links" style="margin-top:14px;">
-          <a href="{IG}" aria-label="Flyover Con on Instagram" rel="noopener" target="_blank">IG</a>
-          <a href="{FB}" aria-label="Flyover Con on Facebook" rel="noopener" target="_blank">FB</a>
+          <a href="{IG}" aria-label="Flyover Con on Instagram" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+          <a href="{FB}" aria-label="Flyover Con on Facebook" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.5 9.87v-6.98H7.9V12h2.6V9.8c0-2.57 1.53-4 3.87-4 1.12 0 2.3.2 2.3.2v2.5h-1.3c-1.28 0-1.68.8-1.68 1.62V12h2.86l-.46 2.89h-2.4v6.98A10 10 0 0 0 22 12z"></path></svg></a>
         </div>
       </div>
       <nav class="site-footer__nav">
