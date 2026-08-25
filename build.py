@@ -23,6 +23,21 @@ OUT             = "site"
 # Alliteration MailMe signup page for the Flyover Con list (list key: "flyover-con").
 MAILME_URL      = "https://alliteration-eight.vercel.app/flyover-con-signup.html"
 
+# FOC27 planning survey POST target. Empty string leaves the page in its own
+# built-in "not connected yet" state, which logs the payload to the console
+# instead of submitting. Set this to the live endpoint to go live.
+SURVEY_ENDPOINT = ""
+
+# Standalone pages copied verbatim from ./src into ./site. These keep their own
+# self-contained markup and CSS, stay out of NAV, and stay out of sitemap.xml.
+# Each one is noindex on purpose.
+RAW_PAGES = {
+    "survey": {
+        "src": "src/survey.html",
+        "subs": {'var ENDPOINT = "";': f'var ENDPOINT = "{SURVEY_ENDPOINT}";'},
+    },
+}
+
 NAV = [("/","Home"),("/about","About"),("/schedule","Schedule"),
        ("/speakers","Speakers"),("/location","Location"),("/years-past","Years Past")]
 
@@ -576,12 +591,22 @@ def main():
     for key in PAGES:
         with open(os.path.join(OUT, key + ".html"), "w", encoding="utf-8") as f:
             f.write(render(key))
+    for key, spec in RAW_PAGES.items():
+        raw = open(spec["src"], encoding="utf-8").read()
+        for find, repl in spec["subs"].items():
+            if find not in raw:
+                sys.exit(f"build: substitution target missing in {spec['src']}: {find}")
+            raw = raw.replace(find, repl)
+        with open(os.path.join(OUT, key + ".html"), "w", encoding="utf-8") as f:
+            f.write(raw)
     for name, content in [("sitemap.xml", sitemap()), ("robots.txt", robots()),
                           ("llms.txt", llms()), ("vercel.json", VERCEL)]:
         with open(os.path.join(OUT, name), "w", encoding="utf-8") as f:
             f.write(content)
     n_photo = sum(1 for s in SPEAKERS if s["photo"])
-    print(f"built {len(PAGES)} pages · {len(SPEAKERS)} speakers ({n_photo} with photos, "
+    endpoint_state = "endpoint set" if SURVEY_ENDPOINT else "NO ENDPOINT SET"
+    print(f"built {len(PAGES)} pages · {len(RAW_PAGES)} standalone ({endpoint_state}) · "
+          f"{len(SPEAKERS)} speakers ({n_photo} with photos, "
           f"{len(SPEAKERS)-n_photo} on initials) → {OUT}/")
 
 if __name__ == "__main__":

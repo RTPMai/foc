@@ -8,6 +8,12 @@ import glob, json, os, re, sys
 
 OUT = "site"
 BASE = "https://www.flyovercon.ink"
+
+# Standalone pages that ship noindex on purpose. They are exempt from the
+# JSON-LD and sitemap-membership rules, and are checked instead for the
+# opposite: they must carry a noindex robots tag and must stay out of
+# sitemap.xml. See RAW_PAGES in build.py.
+NOINDEX_PAGES = {"survey.html"}
 failures = []
 notes = []
 
@@ -86,6 +92,8 @@ def check_single_h1(pages):
 
 def check_jsonld(pages):
     for p, html in pages:
+        if p in NOINDEX_PAGES:
+            continue
         blocks = re.findall(
             r'<script type="application/ld\+json">(.*?)</script>', html, re.S)
         if not blocks:
@@ -137,8 +145,13 @@ def check_sitemap(pages):
     canons = set()
     for p, html in pages:
         m = re.search(r'<link rel="canonical" href="([^"]*)"', html)
-        if m:
-            canons.add(m.group(1))
+        if not m:
+            continue
+        if p in NOINDEX_PAGES:
+            if m.group(1) in locs:
+                fail(f"{p}: noindex page must stay out of sitemap -> {m.group(1)}")
+            continue
+        canons.add(m.group(1))
     for c in canons - locs:
         fail(f"canonical not in sitemap: {c}")
     for l in locs - canons:
@@ -162,6 +175,27 @@ def check_vercel_config():
     for required in ("/home",):
         if required not in srcs:
             fail(f"vercel.json: missing legacy redirect for {required}")
+
+
+def check_noindex_pages(pages):
+    """Pages in NOINDEX_PAGES must exist and must carry a noindex robots tag."""
+    present = {p for p, _ in pages}
+    for name in NOINDEX_PAGES:
+        if name not in present:
+            fail(f"expected noindex page missing from {OUT}/ -> {name}")
+    for p, html in pages:
+        tags = re.findall(r'<meta name="robots" content="([^"]*)"', html)
+        if p in NOINDEX_PAGES:
+            if not tags:
+                fail(f"{p}: expected a robots meta tag, found none")
+            elif len(tags) > 1:
+                fail(f"{p}: {len(tags)} competing robots tags")
+            elif "noindex" not in tags[0]:
+                fail(f"{p}: robots tag lost its noindex -> {tags[0]}")
+        else:
+            for t in tags:
+                if "noindex" in t:
+                    fail(f"{p}: unexpected noindex robots tag -> {t}")
 
 
 def check_assets_resolve(pages):
@@ -191,6 +225,7 @@ def main():
     check_canonicals(pages)
     check_sitemap(pages)
     check_vercel_config()
+    check_noindex_pages(pages)
     check_assets_resolve(pages)
 
     print(f"verify: {len(pages)} pages checked")

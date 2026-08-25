@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flyover Con 2027 Planning Survey | Flyover Con</title>
+<meta name="description" content="Tell us what to teach at Flyover Con 2027, April 16 and 17 at P&amp;M Apparel in Polk City, Iowa. Takes about five minutes.">
+<meta name="robots" content="noindex, follow">
+<link rel="canonical" href="https://www.flyovercon.ink/survey">
+<meta property="og:title" content="What should we teach at Flyover Con 2027?">
+<meta property="og:description" content="Five minutes. Tell us what your shop needs and it shapes the schedule.">
+<meta property="og:url" content="https://www.flyovercon.ink/survey">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://www.flyovercon.ink/assets/img/logo-512.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   FLYOVER CON 2027 SURVEY
+   Palette and type follow the existing flyovercon.ink identity.
+   ============================================================ */
+:root{
+  --navy:#17233F;
+  --navy-soft:#2B3A5C;
+  --yellow:#F2C230;
+  --sky:#8FBEE8;
+  --paper:#FFFFFF;
+  --rule:#D8DEE9;
+  --muted:#5A6480;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:var(--yellow);
+  color:var(--navy);
+  font-family:'Space Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:16px;
+  line-height:1.55;
+}
+
+/* ---------- Shell ---------- */
+.shell{max-width:760px;margin:0 auto;padding:24px 16px 64px}
+.card{background:var(--paper);border:2px solid var(--navy)}
+
+/* ---------- Masthead: departure-board strip ---------- */
+.masthead{padding:28px 24px 22px;border-bottom:2px solid var(--navy)}
+.brandline{
+  display:flex;align-items:center;gap:10px;
+  font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+}
+.brandline img{height:26px;width:auto;display:block}
+h1{
+  margin:16px 0 0;font-size:clamp(26px,6vw,40px);line-height:1.08;
+  font-weight:700;letter-spacing:-.01em;
+}
+.board{
+  display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px;
+  margin-top:18px;padding:9px 16px;border-radius:999px;
+  background:var(--navy);color:var(--paper);
+  font-size:13px;font-weight:700;letter-spacing:.08em;
+}
+.board .sep{display:inline-block;width:44px;height:2px;background:var(--sky)}
+.lede{margin:20px 0 0;font-size:15px;max-width:60ch}
+.lede + .lede{margin-top:12px}
+
+/* ---------- Progress ---------- */
+.progress-wrap{
+  position:sticky;top:0;z-index:20;
+  background:var(--paper);border-bottom:2px solid var(--navy);
+  padding:10px 24px;
+  display:flex;align-items:center;gap:14px;
+}
+.progress-track{flex:1;height:8px;background:var(--rule);border:1px solid var(--navy)}
+.progress-bar{height:100%;width:0;background:var(--sky);transition:width .25s ease}
+.progress-label{
+  font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  white-space:nowrap;color:var(--muted);
+}
+
+/* ---------- Sections ---------- */
+.section{padding:30px 24px;border-bottom:1px solid var(--rule)}
+.section:last-of-type{border-bottom:0}
+.section-head{
+  display:flex;align-items:baseline;gap:12px;margin-bottom:6px;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
+}
+.section-head .tag{
+  background:var(--navy);color:var(--paper);
+  padding:3px 9px;letter-spacing:.14em;font-weight:700;
+}
+.section h2{margin:8px 0 24px;font-size:20px;font-weight:700}
+
+/* ---------- Questions ---------- */
+.q{margin:0 0 30px}
+.q:last-child{margin-bottom:0}
+.q-label{display:block;font-weight:700;font-size:15px;margin-bottom:4px}
+.q-num{color:var(--sky);margin-right:8px}
+.q-help{display:block;font-size:13px;color:var(--muted);margin:0 0 12px;font-weight:400}
+.req{color:#B3261E;font-weight:700;margin-left:4px}
+
+input[type=text],input[type=email],textarea,select{
+  width:100%;padding:11px 12px;
+  font-family:inherit;font-size:16px;color:var(--navy);
+  background:var(--paper);border:2px solid var(--navy);border-radius:0;
+}
+textarea{min-height:96px;resize:vertical}
+input:focus-visible,textarea:focus-visible,select:focus-visible{
+  outline:3px solid var(--sky);outline-offset:2px;
+}
+
+/* choice rows */
+.choices{display:flex;flex-direction:column;gap:2px}
+.choice{
+  display:flex;align-items:flex-start;gap:11px;
+  padding:10px 12px;border:1px solid var(--rule);cursor:pointer;
+}
+.choice:hover{background:#F5F8FC}
+.choice input{
+  flex:0 0 auto;margin:3px 0 0;width:17px;height:17px;
+  accent-color:var(--navy);cursor:pointer;
+}
+.choice span{font-size:14.5px;line-height:1.45}
+.choice:has(input:checked){background:#EAF2FB;border-color:var(--navy)}
+.choice:has(input:focus-visible){outline:3px solid var(--sky);outline-offset:1px}
+.choice input:disabled{cursor:not-allowed}
+.choice:has(input:disabled:not(:checked)){opacity:.42;cursor:not-allowed}
+
+/* pick-five counter */
+.counter{
+  display:inline-block;margin-bottom:12px;padding:5px 11px;
+  background:var(--navy);color:var(--paper);
+  font-size:12px;font-weight:700;letter-spacing:.08em;
+}
+.counter.full{background:var(--sky);color:var(--navy)}
+
+/* ---------- Submit ---------- */
+.submit-zone{padding:30px 24px 34px;background:#F7F9FC;border-top:2px solid var(--navy)}
+button{
+  font-family:inherit;font-size:15px;font-weight:700;letter-spacing:.06em;
+  padding:15px 30px;width:100%;
+  background:var(--navy);color:var(--paper);
+  border:2px solid var(--navy);border-radius:0;cursor:pointer;
+}
+button:hover{background:var(--navy-soft)}
+button:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
+button[disabled]{opacity:.55;cursor:wait}
+.submit-note{margin:14px 0 0;font-size:12.5px;color:var(--muted);text-align:center}
+
+.formmsg{margin:0 0 16px;padding:13px 15px;border:2px solid;font-size:14px;display:none}
+.formmsg.err{display:block;border-color:#B3261E;background:#FDECEA;color:#7A1912}
+
+/* ---------- Thanks ---------- */
+.thanks{display:none;padding:56px 24px;text-align:center}
+.thanks h2{font-size:24px;margin:0 0 14px}
+.thanks p{margin:0 auto 12px;max-width:46ch;font-size:15px}
+.thanks .board{margin-top:22px}
+
+/* ---------- Footer ---------- */
+.foot{
+  text-align:center;font-size:12px;color:var(--navy);
+  padding:20px 16px 0;letter-spacing:.04em;
+}
+.foot a{color:var(--navy)}
+
+@media (max-width:520px){
+  .shell{padding:14px 10px 44px}
+  .masthead,.section,.submit-zone{padding-left:16px;padding-right:16px}
+  .progress-wrap{padding-left:16px;padding-right:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+</style>
+</head>
+<body>
+
+<div class="shell">
+<div class="card">
+
+  <!-- ================= MASTHEAD ================= -->
+  <header class="masthead">
+    <div class="brandline">
+      <img src="/assets/img/logo-compact.png" alt="" aria-hidden="true">
+      <span>Polk City, Iowa</span>
+    </div>
+    <h1>What should we teach at Flyover Con 2027?</h1>
+    <div class="board"><span>APRIL 16 2027</span><span class="sep" aria-hidden="true"></span><span>APRIL 17 2027</span></div>
+    <p class="lede">We are planning Flyover Con 2027 for April 16 and 17 at P&amp;M Apparel in Polk City, and we are capping it at 75 people.</p>
+    <p class="lede">Before we lock the schedule, we want to hear from the shops who would actually be in the room. This takes about five minutes. Every question about what to teach genuinely shapes what we teach, and we read the written answers most closely.</p>
+    <p class="lede">You do not have to have attended before. If anything, we especially want to hear from shops who have not.</p>
+  </header>
+
+  <!-- ================= PROGRESS ================= -->
+  <div class="progress-wrap" role="status" aria-live="polite">
+    <div class="progress-track"><div class="progress-bar" id="bar"></div></div>
+    <span class="progress-label" id="pct">0% complete</span>
+  </div>
+
+  <form id="survey" novalidate>
+
+  <!-- honeypot -->
+  <div style="position:absolute;left:-9999px" aria-hidden="true">
+    <label>Leave this blank <input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+  </div>
+
+  <!-- ================= 1. WHO YOU ARE ================= -->
+  <section class="section">
+    <div class="section-head"><span class="tag">01</span><span>Who you are</span></div>
+    <h2>The basics</h2>
+
+    <div class="q">
+      <label class="q-label" for="q1"><span class="q-num">1</span>Your name<span class="req">*</span></label>
+      <input type="text" id="q1" name="name" autocomplete="name" required>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q2"><span class="q-num">2</span>Shop or company name<span class="req">*</span></label>
+      <input type="text" id="q2" name="company" autocomplete="organization" required>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q3"><span class="q-num">3</span>Email<span class="req">*</span></label>
+      <input type="email" id="q3" name="email" autocomplete="email" required>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q4"><span class="q-num">4</span>City and state<span class="req">*</span></label>
+      <input type="text" id="q4" name="city_state" placeholder="Polk City, IA" required>
+    </div>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">5</span>What best describes your role?</legend>
+      <div class="choices" data-choices="role" data-type="radio" data-options="Owner or co-owner|General manager or operations manager|Production manager or lead|Art director or production artist|Sales or customer service|Production staff|Supplier, distributor or industry partner|Other"></div>
+    </fieldset>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">6</span>How many people work at your shop, including you?</legend>
+      <div class="choices" data-choices="headcount" data-type="radio" data-options="Just me|2 to 5|6 to 15|16 to 40|More than 40"></div>
+    </fieldset>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0">
+      <legend class="q-label"><span class="q-num">7</span>Which decoration methods do you run in house?</legend>
+      <span class="q-help">Check all that apply.</span>
+      <div class="choices" data-choices="methods" data-type="checkbox" data-options="Screen printing, manual|Screen printing, automatic|Embroidery|DTF|DTG|Heat transfer or vinyl|Sublimation|Laser or engraving|We outsource decoration|Other"></div>
+    </fieldset>
+  </section>
+
+  <!-- ================= 2. YOUR YEAR ================= -->
+  <section class="section">
+    <div class="section-head"><span class="tag">02</span><span>Your year</span></div>
+    <h2>How the shop is running</h2>
+
+    <div class="q">
+      <label class="q-label" for="q8"><span class="q-num">8</span>What is the single biggest problem in your shop right now?<span class="req">*</span></label>
+      <span class="q-help">Say it however you would say it out loud. This is the answer we read first.</span>
+      <textarea id="q8" name="biggest_problem" required></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q9"><span class="q-num">9</span>What is the most expensive mistake your shop made in the last twelve months?</label>
+      <span class="q-help">Optional. We are not publishing names.</span>
+      <textarea id="q9" name="expensive_mistake"></textarea>
+    </div>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0">
+      <legend class="q-label"><span class="q-num">10</span>Which of these have gotten harder in the last year?</legend>
+      <span class="q-help">Check all that apply.</span>
+      <div class="choices" data-choices="harder" data-type="checkbox" data-options="Keeping jobs profitable|Blank costs and availability|Finding or keeping good employees|Getting artwork production ready|Scheduling and hitting due dates|Winning new customers|Customers pushing back on price|Equipment downtime or maintenance|Cash flow through the slow months|Keeping up with technology|Nothing has gotten harder|Other"></div>
+    </fieldset>
+  </section>
+
+  <!-- ================= 3. WHAT WE SHOULD TEACH ================= -->
+  <section class="section">
+    <div class="section-head"><span class="tag">03</span><span>What we should teach</span></div>
+    <h2>The schedule</h2>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">11</span>Pick the five sessions you would most want to attend.<span class="req">*</span></legend>
+      <span class="q-help">Five is the limit on purpose. Order is shuffled for everyone.</span>
+      <span class="counter" id="topicCount">0 of 5 picked</span>
+      <div class="choices" id="topics"></div>
+    </fieldset>
+
+    <div class="q">
+      <label class="q-label" for="q12"><span class="q-num">12</span>Of the five you picked, which one would make the trip worth it on its own?<span class="req">*</span></label>
+      <input type="text" id="q12" name="must_have_session" required>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q13"><span class="q-num">13</span>Is there something you want to learn that is not on that list?</label>
+      <textarea id="q13" name="missing_topic"></textarea>
+    </div>
+
+    <div class="q">
+      <label class="q-label" for="q14"><span class="q-num">14</span>Who in this industry would you drive to hear speak?</label>
+      <input type="text" id="q14" name="dream_speaker">
+    </div>
+  </section>
+
+  <!-- ================= 4. FORMAT ================= -->
+  <section class="section">
+    <div class="section-head"><span class="tag">04</span><span>Format</span></div>
+    <h2>How you learn</h2>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">15</span>What actually helps you learn?</legend>
+      <span class="q-help">Pick up to three.</span>
+      <span class="counter" id="formatCount">0 of 3 picked</span>
+      <div class="choices" id="formats" data-choices="learning_format" data-type="checkbox" data-options="Watching a process demonstrated on the floor|A shop owner walking through their real numbers|Unscripted panels and Q and A|Small group discussion|A structured presentation with slides|Hands on, doing it myself|Open time to talk with other shops"></div>
+    </fieldset>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">16</span>In 2026 we ran two sessions at once so shops sending two or three people could cover twice the ground. How did that work?</legend>
+      <div class="choices" data-choices="two_track" data-type="radio" data-options="Worked well, keep it|I would rather have one track and see everything|Keep two tracks but record the sessions|No opinion|I was not at Flyover Con 2026"></div>
+    </fieldset>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0">
+      <legend class="q-label"><span class="q-num">17</span>Would you want the sessions recorded and available afterward?</legend>
+      <div class="choices" data-choices="recordings" data-type="radio" data-options="Yes, that would matter to me|Nice but not important|No"></div>
+    </fieldset>
+  </section>
+
+  <!-- ================= 5. LOGISTICS ================= -->
+  <section class="section">
+    <div class="section-head"><span class="tag">05</span><span>Logistics</span></div>
+    <h2>Getting you there</h2>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">18</span>How far would you drive for this?</legend>
+      <div class="choices" data-choices="drive_distance" data-type="radio" data-options="Under 2 hours|2 to 4 hours|4 to 6 hours|More than 6 hours|I would fly"></div>
+    </fieldset>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">19</span>Flyover Con 2027 is Friday and Saturday, April 16 and 17. Does that work?</legend>
+      <div class="choices" data-choices="dates_work" data-type="radio" data-options="Works well|I would prefer Thursday and Friday|I would prefer Monday through Wednesday|Weekends are hard for me|Any of these work"></div>
+    </fieldset>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">20</span>Registration in 2026 was $50 per person and included meals. For 2027, what feels right?</legend>
+      <div class="choices" data-choices="price" data-type="radio" data-options="$50 is right|I would pay $100|I would pay $150 or more if the content justified it|Free, or I probably would not come"></div>
+    </fieldset>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">21</span>What is the biggest thing that would stop you from attending?</legend>
+      <div class="choices" data-choices="barrier" data-type="radio" data-options="Cannot leave the shop|Travel cost or distance|Timing of the year|Not sure it is worth it|Nothing, I plan to be there|Other"></div>
+    </fieldset>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">22</span>How likely are you to attend in 2027?</legend>
+      <span class="q-help">Not a reservation. It just helps us plan.</span>
+      <div class="choices" data-choices="likelihood" data-type="radio" data-options="Definitely coming|Probably|Maybe|Probably not"></div>
+    </fieldset>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0">
+      <legend class="q-label"><span class="q-num">23</span>How many people from your shop would come?</legend>
+      <div class="choices" data-choices="group_size" data-type="radio" data-options="1|2|3|4 or more|Not sure"></div>
+    </fieldset>
+  </section>
+
+  <!-- ================= 6. CLOSING ================= -->
+  <section class="section">
+    <div class="section-head"><span class="tag">06</span><span>Closing</span></div>
+    <h2>Last few</h2>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">24</span>Have you been to Flyover Con before?</legend>
+      <div class="choices" data-choices="past_attendee" data-type="radio" data-options="Yes, 2024|Yes, 2026|Yes, both|No, this would be my first"></div>
+    </fieldset>
+
+    <div class="q">
+      <label class="q-label" for="q25"><span class="q-num">25</span>Shirt size</label>
+      <select id="q25" name="shirt_size">
+        <option value="">Select one</option>
+        <option>S</option><option>M</option><option>L</option><option>XL</option>
+        <option>2X</option><option>3X</option><option>4X</option>
+      </select>
+    </div>
+
+    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
+      <legend class="q-label"><span class="q-num">26</span>Can we share your contact information with Flyover Con sponsors?</legend>
+      <span class="q-help">Sponsors help keep registration cheap. You can say no and it changes nothing else.</span>
+      <div class="choices" data-choices="sponsor_optin" data-type="radio" data-options="Yes|No"></div>
+    </fieldset>
+
+    <div class="q">
+      <label class="q-label" for="q27"><span class="q-num">27</span>Anything else you want us to know?</label>
+      <textarea id="q27" name="anything_else"></textarea>
+    </div>
+  </section>
+
+  <!-- ================= SUBMIT ================= -->
+  <div class="submit-zone">
+    <div class="formmsg" id="msg" role="alert"></div>
+    <button type="submit" id="submitBtn">Send my answers</button>
+    <p class="submit-note">Five minutes of your time turns into two days of ours. Thank you.</p>
+  </div>
+  </form>
+
+  <!-- ================= THANKS ================= -->
+  <div class="thanks" id="thanks" tabindex="-1">
+    <h2>Got it. Thank you.</h2>
+    <p>Your answers go straight into how we build the schedule. If you told us about a problem in your shop, there is a real chance it becomes a session.</p>
+    <p>We will email you when registration opens. It sold out last year.</p>
+    <div class="board"><span>APRIL 16 2027</span><span class="sep" aria-hidden="true"></span><span>APRIL 17 2027</span></div>
+  </div>
+
+</div>
+<p class="foot">Flyover Con, presented by <a href="https://www.pmapparel.com" rel="noopener" target="_blank">P&amp;M Apparel</a>. 1100 S 5th St, Polk City, IA 50226.</p>
+</div>
+
+<script>
+/* ============================================================
+   SET YOUR FORM ENDPOINT HERE
+   Formspree:  https://formspree.io/f/XXXXXXXX
+   Netlify:    leave as "" and see the note in the handoff
+   Apps Script: your /exec URL
+   ============================================================ */
+var ENDPOINT = "";
+
+/* ---------- Session topics (Q11) ---------- */
+var TOPICS = [
+  "What a job actually costs, down to the garment",
+  "Blanks, tariffs and quoting against a moving target",
+  "Reading your own P&L and balance sheet",
+  "Raising prices without losing the customer",
+  "Hiring, training and keeping good people",
+  "What you pay your people, with real numbers from the room",
+  "Finding the bottleneck on your own floor",
+  "Short runs without losing money",
+  "Where is that job right now: production tracking and shop software",
+  "Preventive maintenance and the repairs you can do yourself",
+  "Buying used equipment without getting burned",
+  "Production ready artwork and separations",
+  "Embroidery: digitizing, stabilizer and hooping",
+  "Screen making, exposure and registration",
+  "Combining decoration methods on one garment",
+  "Spoilage: real numbers from real shops",
+  "AI doing actual shop work, live",
+  "Webstores built live, start to finish",
+  "Company stores, fundraising and program work",
+  "Selling more than a shirt",
+  "Marketing your shop without an agency",
+  "Live printing activations and events",
+  "Firing a customer",
+  "The seasonal cash crunch",
+  "What your insurance actually covers",
+  "The art your customer sent you is illegal: trademark, licensing and AI art",
+  "Chemicals, ventilation, fire and OSHA",
+  "PFAS regulations and what they mean for your blanks",
+  "Succession: what happens to your shop when you stop",
+  "Burnout and the isolation of running a shop"
+];
+
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+function row(name, type, value){
+  return '<label class="choice"><input type="'+type+'" name="'+name+'" value="'+esc(value)+'"><span>'+esc(value)+'</span></label>';
+}
+
+/* Build every declarative choice group */
+document.querySelectorAll('[data-choices]').forEach(function(el){
+  var name = el.getAttribute('data-choices');
+  var type = el.getAttribute('data-type');
+  var opts = (el.getAttribute('data-options')||'').split('|');
+  el.innerHTML = opts.map(function(o){ return row(type==='checkbox'? name+'[]' : name, type, o); }).join('');
+});
+
+/* Build the shuffled topic list */
+(function(){
+  var shuffled = TOPICS.slice();
+  for(var i=shuffled.length-1;i>0;i--){
+    var j = Math.floor(Math.random()*(i+1));
+    var t = shuffled[i]; shuffled[i]=shuffled[j]; shuffled[j]=t;
+  }
+  document.getElementById('topics').innerHTML =
+    shuffled.map(function(o){ return row('topics[]','checkbox',o); }).join('');
+})();
+
+/* Generic "pick at most N" limiter */
+function limitGroup(containerId, counterId, max, noun){
+  var box = document.getElementById(containerId);
+  var counter = document.getElementById(counterId);
+  function sync(){
+    var all = box.querySelectorAll('input');
+    var picked = box.querySelectorAll('input:checked').length;
+    counter.textContent = picked + ' of ' + max + ' picked';
+    counter.classList.toggle('full', picked >= max);
+    all.forEach(function(i){ i.disabled = (picked >= max && !i.checked); });
+    return picked;
+  }
+  box.addEventListener('change', function(){ sync(); updateProgress(); });
+  sync();
+}
+limitGroup('topics','topicCount',5);
+limitGroup('formats','formatCount',3);
+
+/* ---------- Progress ---------- */
+var TOTAL = 27;
+function updateProgress(){
+  var f = document.getElementById('survey');
+  var done = 0;
+  // text and textarea and select, by name
+  ['name','company','email','city_state','biggest_problem','expensive_mistake',
+   'must_have_session','missing_topic','dream_speaker','anything_else','shirt_size']
+   .forEach(function(n){
+     var el = f.elements[n];
+     if(el && String(el.value).trim() !== '') done++;
+   });
+  // grouped inputs
+  ['role','headcount','methods[]','harder[]','topics[]','learning_format[]','two_track',
+   'recordings','drive_distance','dates_work','price','barrier','likelihood',
+   'group_size','past_attendee','sponsor_optin']
+   .forEach(function(n){
+     if(f.querySelector('[name="'+n+'"]:checked')) done++;
+   });
+  var pctVal = Math.min(100, Math.round(done / TOTAL * 100));
+  document.getElementById('bar').style.width = pctVal + '%';
+  document.getElementById('pct').textContent = pctVal + '% complete';
+}
+document.getElementById('survey').addEventListener('input', updateProgress);
+document.getElementById('survey').addEventListener('change', updateProgress);
+updateProgress();
+
+/* ---------- Submit ---------- */
+document.getElementById('survey').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = e.target;
+  var msg = document.getElementById('msg');
+  var btn = document.getElementById('submitBtn');
+  msg.className = 'formmsg';
+
+  // required checks
+  var missing = null;
+  ['name','company','email','city_state','biggest_problem','must_have_session'].forEach(function(n){
+    if(!missing && String(f.elements[n].value).trim()===''){ missing = f.elements[n]; }
+  });
+  if(!missing && !/^\S+@\S+\.\S+$/.test(f.elements['email'].value)){ missing = f.elements['email']; }
+  if(missing){
+    msg.textContent = 'One required field is still empty or incomplete. We jumped you to it.';
+    msg.className = 'formmsg err';
+    missing.focus();
+    missing.scrollIntoView({block:'center'});
+    return;
+  }
+  if(!f.querySelector('[name="topics[]"]:checked')){
+    msg.textContent = 'Pick at least one session in question 11 before sending.';
+    msg.className = 'formmsg err';
+    document.getElementById('topics').scrollIntoView({block:'center'});
+    return;
+  }
+
+  // gather
+  var fd = new FormData(f);
+  var payload = {};
+  fd.forEach(function(v,k){
+    if(k === '_gotcha') return;
+    if(k.slice(-2) === '[]'){
+      var key = k.slice(0,-2);
+      (payload[key] = payload[key] || []).push(v);
+    } else { payload[k] = v; }
+  });
+  payload.submitted_at = new Date().toISOString();
+
+  if(fd.get('_gotcha')){ return; } // bot
+
+  if(!ENDPOINT){
+    console.log('FOC27 survey payload (no ENDPOINT set):', payload);
+    msg.textContent = 'This form is not connected yet. Set ENDPOINT in the page script.';
+    msg.className = 'formmsg err';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  fetch(ENDPOINT, {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Accept':'application/json'},
+    body: JSON.stringify(payload)
+  }).then(function(r){
+    if(!r.ok) throw new Error('bad status');
+    f.style.display = 'none';
+    document.querySelector('.progress-wrap').style.display = 'none';
+    var th = document.getElementById('thanks');
+    th.style.display = 'block';
+    th.focus();
+    window.scrollTo({top:0});
+  }).catch(function(){
+    btn.disabled = false;
+    btn.textContent = 'Send my answers';
+    msg.textContent = 'That did not send. Check your connection and try again, or email ryan@flyovercon.ink and we will take your answers that way.';
+    msg.className = 'formmsg err';
+  });
+});
+</script>
+</body>
+</html>
