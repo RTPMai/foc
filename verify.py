@@ -9,6 +9,14 @@ import glob, json, os, re, sys
 OUT = "site"
 BASE = "https://www.flyovercon.ink"
 
+# Standalone pages that ship noindex on purpose. Exempt from the JSON-LD and
+# sitemap-membership rules, and checked instead for the opposite: they must
+# carry a noindex robots tag and must stay out of sitemap.xml. See RAW_PAGES.
+NOINDEX_PAGES = {"survey.html"}
+
+# Serverless functions that must survive every build. See COPY_FILES.
+REQUIRED_FILES = ["api/survey.js"]
+
 # Standalone pages that ship noindex on purpose. They are exempt from the
 # JSON-LD and sitemap-membership rules, and are checked instead for the
 # opposite: they must carry a noindex robots tag and must stay out of
@@ -196,6 +204,51 @@ def check_noindex_pages(pages):
             for t in tags:
                 if "noindex" in t:
                     fail(f"{p}: unexpected noindex robots tag -> {t}")
+
+
+def check_noindex_pages(pages):
+    """NOINDEX_PAGES must exist and carry exactly one noindex robots tag.
+    Every other page must not carry one."""
+    present = {p for p, _ in pages}
+    for name in NOINDEX_PAGES:
+        if name not in present:
+            fail(f"expected noindex page missing from {OUT}/ -> {name}")
+    for p, html in pages:
+        tags = re.findall(r'<meta name="robots" content="([^"]*)"', html)
+        if p in NOINDEX_PAGES:
+            if not tags:
+                fail(f"{p}: expected a robots meta tag, found none")
+            elif len(tags) > 1:
+                fail(f"{p}: {len(tags)} competing robots tags")
+            elif "noindex" not in tags[0]:
+                fail(f"{p}: robots tag lost its noindex -> {tags[0]}")
+        else:
+            for t in tags:
+                if "noindex" in t:
+                    fail(f"{p}: unexpected noindex robots tag -> {t}")
+
+
+def check_required_files():
+    for rel in REQUIRED_FILES:
+        if not os.path.exists(os.path.join(OUT, rel)):
+            fail(f"required file missing from {OUT}/ -> {rel}")
+
+
+def check_form_endpoints():
+    """No survey or signup form may POST to an empty or off-domain endpoint."""
+    for name in NOINDEX_PAGES:
+        fp = os.path.join(OUT, name)
+        if not os.path.exists(fp):
+            continue
+        html = read(fp)
+        m = re.search(r'var ENDPOINT = "([^"]*)"', html)
+        if not m:
+            continue
+        url = m.group(1)
+        if not url:
+            fail(f"{name}: ENDPOINT is empty, the form cannot submit")
+        elif url.startswith("http") and not url.startswith(BASE):
+            fail(f"{name}: ENDPOINT points off domain -> {url}")
 
 
 def check_assets_resolve(pages):

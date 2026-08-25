@@ -15,29 +15,34 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
    FLYOVER CON 2027 SURVEY
-   Palette and type follow the existing flyovercon.ink identity.
+   Tokens mirror site/assets/css/style.css. Keep them in sync by hand;
+   this page is standalone and does not load the sitewide stylesheet.
    ============================================================ */
 :root{
-  --navy:#17233F;
-  --navy-soft:#2B3A5C;
-  --yellow:#F2C230;
-  --sky:#8FBEE8;
+  --navy:#131929;
+  --navy-soft:#0B0E17;
+  --gold:#FFB81E;
+  --sky:#81C0EB;
   --paper:#FFFFFF;
-  --rule:#D8DEE9;
-  --muted:#5A6480;
+  --rule:#E7E9EE;
+  --muted:#6B7280;
+
+  --font-display:'Archivo Black','Arial Black',Impact,sans-serif;
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
 }
 
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{
   margin:0;
-  background:var(--yellow);
+  background:var(--gold);
   color:var(--navy);
-  font-family:'Space Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-family:var(--font-sans);
   font-size:16px;
   line-height:1.55;
 }
@@ -50,18 +55,20 @@ body{
 .masthead{padding:28px 24px 22px;border-bottom:2px solid var(--navy)}
 .brandline{
   display:flex;align-items:center;gap:10px;
+  font-family:var(--font-mono);font-weight:500;
   font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
 }
 .brandline img{height:26px;width:auto;display:block}
 h1{
-  margin:16px 0 0;font-size:clamp(26px,6vw,40px);line-height:1.08;
-  font-weight:700;letter-spacing:-.01em;
+  margin:16px 0 0;font-size:clamp(24px,5.4vw,38px);line-height:1.12;
+  font-family:var(--font-display);font-weight:400;
+  text-transform:uppercase;letter-spacing:-.005em;
 }
 .board{
   display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px;
   margin-top:18px;padding:9px 16px;border-radius:999px;
   background:var(--navy);color:var(--paper);
-  font-size:13px;font-weight:700;letter-spacing:.08em;
+  font-family:var(--font-mono);font-size:13px;font-weight:600;letter-spacing:.08em;
 }
 .board .sep{display:inline-block;width:44px;height:2px;background:var(--sky)}
 .lede{margin:20px 0 0;font-size:15px;max-width:60ch}
@@ -77,6 +84,7 @@ h1{
 .progress-track{flex:1;height:8px;background:var(--rule);border:1px solid var(--navy)}
 .progress-bar{height:100%;width:0;background:var(--sky);transition:width .25s ease}
 .progress-label{
+  font-family:var(--font-mono);font-weight:500;
   font-size:11px;letter-spacing:.12em;text-transform:uppercase;
   white-space:nowrap;color:var(--muted);
 }
@@ -86,25 +94,26 @@ h1{
 .section:last-of-type{border-bottom:0}
 .section-head{
   display:flex;align-items:baseline;gap:12px;margin-bottom:6px;
+  font-family:var(--font-mono);font-weight:500;
   font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);
 }
 .section-head .tag{
   background:var(--navy);color:var(--paper);
-  padding:3px 9px;letter-spacing:.14em;font-weight:700;
+  padding:3px 9px;letter-spacing:.14em;font-weight:600;
 }
-.section h2{margin:8px 0 24px;font-size:20px;font-weight:700}
+.section h2{margin:8px 0 24px;font-size:20px;font-family:var(--font-display);\n  font-weight:400;text-transform:uppercase;letter-spacing:-.005em}
 
 /* ---------- Questions ---------- */
 .q{margin:0 0 30px}
 .q:last-child{margin-bottom:0}
 .q-label{display:block;font-weight:700;font-size:15px;margin-bottom:4px}
-.q-num{color:var(--sky);margin-right:8px}
+.q-num{font-family:var(--font-mono);font-weight:600;color:var(--sky);margin-right:8px}
 .q-help{display:block;font-size:13px;color:var(--muted);margin:0 0 12px;font-weight:400}
 .req{color:#B3261E;font-weight:700;margin-left:4px}
 
 input[type=text],input[type=email],textarea,select{
   width:100%;padding:11px 12px;
-  font-family:inherit;font-size:16px;color:var(--navy);
+  font-family:var(--font-sans);font-size:16px;color:var(--navy);
   background:var(--paper);border:2px solid var(--navy);border-radius:0;
 }
 textarea{min-height:96px;resize:vertical}
@@ -133,19 +142,21 @@ input:focus-visible,textarea:focus-visible,select:focus-visible{
 .counter{
   display:inline-block;margin-bottom:12px;padding:5px 11px;
   background:var(--navy);color:var(--paper);
-  font-size:12px;font-weight:700;letter-spacing:.08em;
+  font-family:var(--font-mono);font-size:12px;font-weight:600;letter-spacing:.08em;
 }
 .counter.full{background:var(--sky);color:var(--navy)}
 
 /* ---------- Submit ---------- */
 .submit-zone{padding:30px 24px 34px;background:#F7F9FC;border-top:2px solid var(--navy)}
 button{
-  font-family:inherit;font-size:15px;font-weight:700;letter-spacing:.06em;
+  font-family:var(--font-display);font-size:15px;font-weight:400;
+  text-transform:uppercase;letter-spacing:.03em;
   padding:15px 30px;width:100%;
   background:var(--navy);color:var(--paper);
-  border:2px solid var(--navy);border-radius:0;cursor:pointer;
+  border:2px solid var(--navy);border-radius:2px;cursor:pointer;
+  transition:transform .15s ease, background .15s ease;
 }
-button:hover{background:var(--navy-soft)}
+button:hover{background:var(--navy-soft);transform:translateY(-2px)}
 button:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
 button[disabled]{opacity:.55;cursor:wait}
 .submit-note{margin:14px 0 0;font-size:12.5px;color:var(--muted);text-align:center}
@@ -155,12 +166,13 @@ button[disabled]{opacity:.55;cursor:wait}
 
 /* ---------- Thanks ---------- */
 .thanks{display:none;padding:56px 24px;text-align:center}
-.thanks h2{font-size:24px;margin:0 0 14px}
+.thanks h2{font-size:24px;margin:0 0 14px;font-family:var(--font-display);\n  font-weight:400;text-transform:uppercase;letter-spacing:-.005em}
 .thanks p{margin:0 auto 12px;max-width:46ch;font-size:15px}
 .thanks .board{margin-top:22px}
 
 /* ---------- Footer ---------- */
 .foot{
+  font-family:var(--font-mono);font-weight:500;
   text-align:center;font-size:12px;color:var(--navy);
   padding:20px 16px 0;letter-spacing:.04em;
 }
