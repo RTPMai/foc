@@ -384,23 +384,8 @@ button[disabled]{opacity:.55;cursor:wait}
     </fieldset>
 
     <div class="q">
-      <label class="q-label" for="q25"><span class="q-num">25</span>Shirt size</label>
-      <select id="q25" name="shirt_size">
-        <option value="">Select one</option>
-        <option>S</option><option>M</option><option>L</option><option>XL</option>
-        <option>2X</option><option>3X</option><option>4X</option>
-      </select>
-    </div>
-
-    <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
-      <legend class="q-label"><span class="q-num">26</span>Can we share your contact information with Flyover Con sponsors?</legend>
-      <span class="q-help">Sponsors help keep registration cheap. You can say no and it changes nothing else.</span>
-      <div class="choices" data-choices="sponsor_optin" data-type="radio" data-options="Yes|No"></div>
-    </fieldset>
-
-    <div class="q">
-      <label class="q-label" for="q27"><span class="q-num">27</span>Anything else you want us to know?</label>
-      <textarea id="q27" name="anything_else"></textarea>
+      <label class="q-label" for="q25"><span class="q-num">25</span>Anything else you want us to know?</label>
+      <textarea id="q25" name="anything_else"></textarea>
     </div>
   </section>
 
@@ -511,13 +496,13 @@ limitGroup('topics','topicCount',5);
 limitGroup('formats','formatCount',3);
 
 /* ---------- Progress ---------- */
-var TOTAL = 27;
+var TOTAL = 25;
 function updateProgress(){
   var f = document.getElementById('survey');
   var done = 0;
   // text and textarea and select, by name
   ['name','company','email','city_state','biggest_problem','expensive_mistake',
-   'must_have_session','missing_topic','dream_speaker','anything_else','shirt_size']
+   'must_have_session','missing_topic','dream_speaker','anything_else']
    .forEach(function(n){
      var el = f.elements[n];
      if(el && String(el.value).trim() !== '') done++;
@@ -525,7 +510,7 @@ function updateProgress(){
   // grouped inputs
   ['role','headcount','methods[]','harder[]','topics[]','learning_format[]','two_track',
    'recordings','drive_distance','dates_work','price','barrier','likelihood',
-   'group_size','past_attendee','sponsor_optin']
+   'group_size','past_attendee']
    .forEach(function(n){
      if(f.querySelector('[name="'+n+'"]:checked')) done++;
    });
