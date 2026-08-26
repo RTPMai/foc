@@ -535,3 +535,31 @@ section{ padding:64px 0; }
   display:block;
   margin-top:6px;
 }
+
+/* ===================== Notify signup form (/notify) ===================== */
+.signup{max-width:34rem}
+.signup__field{margin-bottom:20px}
+.signup__field label{
+  display:block;margin-bottom:7px;
+  font-family:var(--font-mono);font-weight:600;
+  font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--grey);
+}
+.signup__field input{
+  width:100%;box-sizing:border-box;
+  font-family:var(--font-body);font-size:1rem;color:var(--navy);
+  padding:13px 14px;background:#fff;
+  border:1px solid var(--grey-light);border-radius:2px;
+}
+.signup__field input:focus{
+  outline:3px solid var(--sky);outline-offset:2px;border-color:var(--navy);
+}
+.signup__hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.signup__msg{margin:16px 0 0;font-size:0.92rem;line-height:1.6}
+.signup__msg--err{color:#9B2226;font-weight:600}
+.signup__note{margin:18px 0 0;font-size:0.82rem;color:var(--grey);max-width:52ch}
+.signup__done{
+  padding:26px;border:2px solid var(--navy);border-radius:var(--radius-block);
+  background:#fff;max-width:34rem;
+}
+.signup__done h2{margin:0 0 10px;font-size:1.3rem}
+.signup__done p{margin:0;color:var(--grey);line-height:1.65}

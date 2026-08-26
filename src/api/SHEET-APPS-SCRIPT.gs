@@ -2,9 +2,10 @@
  * FOC27 survey, Sheet side.
  *
  * Setup, about five minutes:
- *  1. Create a Google Sheet. Name the first tab "Responses".
+ *  1. Create a Google Sheet. Rename the first tab to "Responses". A second
+ *     tab named "Notify" is created automatically on the first signup.
  *  2. Extensions, Apps Script. Delete the sample code, paste this file in.
- *  3. Edit TOKEN below to a long random string. Keep a copy.
+ *  3. Set TOKEN below to a long random string. Keep a copy.
  *  4. Deploy, New deployment, type Web app.
  *       Execute as: Me
  *       Who has access: Anyone
@@ -19,10 +20,19 @@
  *
  * The header row builds itself from the first submission and grows as new
  * fields appear, so adding a question later does not break anything.
+ *
+ * This file is documentation and lives in the repo for reference. It runs
+ * inside Google, not on Vercel. Editing it here changes nothing until you
+ * paste the new version into the Apps Script editor and redeploy.
  */
 
 var TOKEN = 'CHANGE-ME-TO-A-LONG-RANDOM-STRING';
-var TAB = 'Responses';
+var DEFAULT_TAB = 'Responses';
+var ALLOWED_TABS = ['Responses', 'Notify'];
+
+// Email a one-line nudge when a response lands. Set to false for quiet mode.
+var NOTIFY = true;
+var NOTIFY_TO = 'ryan@flyovercon.ink';
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -34,8 +44,17 @@ function doPost(e) {
     }
 
     var row = body.row || {};
-    var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(TAB);
-    if (!sheet) sheet = SpreadsheetApp.getActiveSpreadsheet().insertSheet(TAB);
+
+    // The survey writes to Responses, the notify form writes to Notify.
+    // Anything else is rejected so a bad payload cannot spawn stray tabs.
+    var tab = body.tab || DEFAULT_TAB;
+    if (ALLOWED_TABS.indexOf(tab) === -1) {
+      return json({ ok: false, error: 'unknown tab: ' + tab });
+    }
+
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(tab);
+    if (!sheet) sheet = ss.insertSheet(tab);
 
     var lastCol = sheet.getLastColumn();
     var headers = lastCol ? sheet.getRange(1, 1, 1, lastCol).getValues()[0] : [];
@@ -50,6 +69,20 @@ function doPost(e) {
       return row[h] === undefined ? '' : row[h];
     });
     sheet.appendRow(line);
+
+    if (NOTIFY) {
+      // A failed email must never fail the submission. The row is already saved.
+      try {
+        var count = sheet.getLastRow() - 1;
+        MailApp.sendEmail({
+          to: NOTIFY_TO,
+          subject: 'FOC27 ' + (tab === 'Notify' ? 'list signup' : 'survey response') + ' #' + count,
+          body: 'A new response just landed.\n\n' + ss.getUrl()
+        });
+      } catch (mailErr) {
+        Logger.log('notify failed: ' + mailErr);
+      }
+    }
 
     return json({ ok: true });
   } catch (err) {
