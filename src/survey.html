@@ -123,6 +123,12 @@ input:focus-visible,textarea:focus-visible,select:focus-visible{
 
 /* choice rows */
 .choices{display:flex;flex-direction:column;gap:2px}
+.choice-group{
+  font-family:var(--font-mono);font-weight:600;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  margin:18px 0 6px;
+}
+.choice-group:first-child{margin-top:4px}
 .choice{
   display:flex;align-items:flex-start;gap:11px;
   padding:10px 12px;border:1px solid var(--rule);cursor:pointer;
@@ -160,6 +166,7 @@ button:hover{background:var(--navy-soft);transform:translateY(-2px)}
 button:focus-visible{outline:3px solid var(--sky);outline-offset:3px}
 button[disabled]{opacity:.55;cursor:wait}
 .submit-note{margin:14px 0 0;font-size:12.5px;color:var(--muted);text-align:center}
+.submit-note--lead{margin:0 0 18px;text-align:left;max-width:62ch}
 
 .formmsg{margin:0 0 16px;padding:13px 15px;border:2px solid;font-size:14px;display:none}
 .formmsg.err{display:block;border-color:#B3261E;background:#FDECEA;color:#7A1912}
@@ -177,6 +184,13 @@ button[disabled]{opacity:.55;cursor:wait}
   padding:20px 16px 0;letter-spacing:.04em;
 }
 .foot a{color:var(--navy)}
+
+/* Clipped, not hidden. display:none and visibility:hidden both drop it out
+   of the accessibility tree, which defeats the point. */
+.vh{
+  position:absolute;width:1px;height:1px;margin:-1px;padding:0;
+  overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;
+}
 
 @media (max-width:520px){
   .shell{padding:14px 10px 44px}
@@ -200,7 +214,7 @@ button[disabled]{opacity:.55;cursor:wait}
       <span>Polk City, Iowa</span>
     </div>
     <h1>What should we teach at Flyover Con 2027?</h1>
-    <div class="board"><span>APRIL 16 2027</span><span class="sep" aria-hidden="true"></span><span>APRIL 17 2027</span></div>
+    <div class="board"><span>APRIL 16 2027</span><span class="sep" aria-hidden="true"></span><span class="vh"> to </span><span>APRIL 17 2027</span></div>
     <p class="lede">We are planning Flyover Con 2027 for April 16 and 17 at P&amp;M Apparel in Polk City, and we are capping it at 75 people.</p>
     <p class="lede">Before we lock the schedule, we want to hear from the shops who would actually be in the room. This takes about five minutes. Every question about what to teach genuinely shapes what we teach, and we read the written answers most closely.</p>
     <p class="lede">You do not have to have attended before. If anything, we especially want to hear from shops who have not.</p>
@@ -299,7 +313,10 @@ button[disabled]{opacity:.55;cursor:wait}
 
     <div class="q">
       <label class="q-label" for="q12"><span class="q-num">12</span>Of the five you picked, which one would make the trip worth it on its own?<span class="req">*</span></label>
-      <input type="text" id="q12" name="must_have_session" required>
+      <span class="q-help">From the five you checked above.</span>
+      <select id="q12" name="must_have_session" required>
+        <option value="" disabled selected>Pick your sessions above first</option>
+      </select>
     </div>
 
     <div class="q">
@@ -347,13 +364,13 @@ button[disabled]{opacity:.55;cursor:wait}
     </fieldset>
 
     <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
-      <legend class="q-label"><span class="q-num">19</span>Flyover Con 2027 is Friday and Saturday, April 16 and 17. Does that work?</legend>
-      <div class="choices" data-choices="dates_work" data-type="radio" data-options="Works well|I would prefer Thursday and Friday|I would prefer Monday through Wednesday|Weekends are hard for me|Any of these work"></div>
+      <legend class="q-label"><span class="q-num">19</span>Flyover Con 2027 is Friday and Saturday, April 16 and 17. For years after this one, which days work best for your shop?</legend>
+      <div class="choices" data-choices="dates_work" data-type="radio" data-options="Friday and Saturday is ideal|Thursday and Friday|Monday through Wednesday|Weekends are hard for me|Any of these work"></div>
     </fieldset>
 
     <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
       <legend class="q-label"><span class="q-num">20</span>Registration in 2026 was $50 per person and included meals. For 2027, what feels right?</legend>
-      <div class="choices" data-choices="price" data-type="radio" data-options="$50 is right|I would pay $100|I would pay $150 or more if the content justified it|Free, or I probably would not come"></div>
+      <div class="choices" data-choices="price" data-type="radio" data-options="$50 is right|I would pay $75|I would pay $100|I would pay $150 or more if the content justified it|$50 is already more than I would spend"></div>
     </fieldset>
 
     <fieldset class="q" style="border:0;padding:0;margin:0 0 30px">
@@ -391,6 +408,7 @@ button[disabled]{opacity:.55;cursor:wait}
 
   <!-- ================= SUBMIT ================= -->
   <div class="submit-zone">
+    <p class="submit-note submit-note--lead">We use these answers to build the schedule. We do not sell your information, and we do not publish anything with your name on it without asking you first.</p>
     <div class="formmsg" id="msg" role="alert"></div>
     <button type="submit" id="submitBtn">Send my answers</button>
     <p class="submit-note">Five minutes of your time turns into two days of ours. Thank you.</p>
@@ -402,7 +420,7 @@ button[disabled]{opacity:.55;cursor:wait}
     <h2>Got it. Thank you.</h2>
     <p>Your answers go straight into how we build the schedule. If you told us about a problem in your shop, there is a real chance it becomes a session.</p>
     <p>We will email you when registration opens. It sold out last year.</p>
-    <div class="board"><span>APRIL 16 2027</span><span class="sep" aria-hidden="true"></span><span>APRIL 17 2027</span></div>
+    <div class="board"><span>APRIL 16 2027</span><span class="sep" aria-hidden="true"></span><span class="vh"> to </span><span>APRIL 17 2027</span></div>
   </div>
 
 </div>
@@ -419,37 +437,45 @@ button[disabled]{opacity:.55;cursor:wait}
 var ENDPOINT = "";
 
 /* ---------- Session topics (Q11) ---------- */
-var TOPICS = [
-  "What a job actually costs, down to the garment",
-  "Blanks, tariffs and quoting against a moving target",
-  "Reading your own P&L and balance sheet",
-  "Raising prices without losing the customer",
-  "Hiring, training and keeping good people",
-  "What you pay your people, with real numbers from the room",
-  "Finding the bottleneck on your own floor",
-  "Short runs without losing money",
-  "Where is that job right now: production tracking and shop software",
-  "Preventive maintenance and the repairs you can do yourself",
-  "Buying used equipment without getting burned",
-  "Production ready artwork and separations",
-  "Embroidery: digitizing, stabilizer and hooping",
-  "Screen making, exposure and registration",
-  "Combining decoration methods on one garment",
-  "Spoilage: real numbers from real shops",
-  "AI doing actual shop work, live",
-  "Webstores built live, start to finish",
-  "Company stores, fundraising and program work",
-  "Selling more than a shirt",
-  "Marketing your shop without an agency",
-  "Live printing activations and events",
-  "Firing a customer",
-  "The seasonal cash crunch",
-  "What your insurance actually covers",
-  "The art your customer sent you is illegal: trademark, licensing and AI art",
-  "Chemicals, ventilation, fire and OSHA",
-  "PFAS regulations and what they mean for your blanks",
-  "Succession: what happens to your shop when you stop",
-  "Burnout and the isolation of running a shop"
+var TOPIC_GROUPS = [
+  ["Money and pricing", [
+    "What a job actually costs, down to the garment",
+    "Blanks, tariffs and quoting against a moving target",
+    "Reading your own P&L and balance sheet",
+    "Raising prices without losing the customer",
+    "Short runs without losing money",
+    "The seasonal cash crunch",
+    "Spoilage: real numbers from real shops"
+  ]],
+  ["Production and equipment", [
+    "Finding the bottleneck on your own floor",
+    "Where is that job right now: production tracking and shop software",
+    "Preventive maintenance and the repairs you can do yourself",
+    "Buying used equipment without getting burned",
+    "Production ready artwork and separations",
+    "Embroidery: digitizing, stabilizer and hooping",
+    "Screen making, exposure and registration",
+    "Combining decoration methods on one garment",
+    "AI doing actual shop work, live"
+  ]],
+  ["People and customers", [
+    "Hiring, training and keeping good people",
+    "What you pay your people, with real numbers from the room",
+    "Selling more than a shirt",
+    "Marketing your shop without an agency",
+    "Webstores built live, start to finish",
+    "Company stores, fundraising and program work",
+    "Live printing activations and events",
+    "Firing a customer"
+  ]],
+  ["Risk, rules and the long game", [
+    "What your insurance actually covers",
+    "The art your customer sent you is illegal: trademark, licensing and AI art",
+    "Chemicals, ventilation, fire and OSHA",
+    "PFAS regulations and what they mean for your blanks",
+    "Succession: what happens to your shop when you stop",
+    "Burnout and the isolation of running a shop"
+  ]]
 ];
 
 function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
@@ -466,15 +492,21 @@ document.querySelectorAll('[data-choices]').forEach(function(el){
   el.innerHTML = opts.map(function(o){ return row(type==='checkbox'? name+'[]' : name, type, o); }).join('');
 });
 
-/* Build the shuffled topic list */
-(function(){
-  var shuffled = TOPICS.slice();
-  for(var i=shuffled.length-1;i>0;i--){
+/* Build the topic list, grouped, shuffled within each group so position bias
+   is still broken up while the page stays scannable on a phone. */
+function shuffle(a){
+  var out = a.slice();
+  for(var i=out.length-1;i>0;i--){
     var j = Math.floor(Math.random()*(i+1));
-    var t = shuffled[i]; shuffled[i]=shuffled[j]; shuffled[j]=t;
+    var t = out[i]; out[i]=out[j]; out[j]=t;
   }
-  document.getElementById('topics').innerHTML =
-    shuffled.map(function(o){ return row('topics[]','checkbox',o); }).join('');
+  return out;
+}
+(function(){
+  document.getElementById('topics').innerHTML = TOPIC_GROUPS.map(function(g){
+    return '<p class="choice-group">'+esc(g[0])+'</p>' +
+      shuffle(g[1]).map(function(o){ return row('topics[]','checkbox',o); }).join('');
+  }).join('');
 })();
 
 /* Generic "pick at most N" limiter */
@@ -489,35 +521,62 @@ function limitGroup(containerId, counterId, max, noun){
     all.forEach(function(i){ i.disabled = (picked >= max && !i.checked); });
     return picked;
   }
-  box.addEventListener('change', function(){ sync(); updateProgress(); });
+  box.addEventListener('change', function(){
+    sync();
+    if(containerId === 'topics') syncMustHave();
+    updateProgress();
+  });
   sync();
 }
+
+/* Q12 mirrors whatever is currently checked in Q11, so nobody has to scroll
+   back up and retype a sixty character session title. */
+function syncMustHave(){
+  var sel = document.getElementById('q12');
+  var prev = sel.value;
+  var picked = [].map.call(
+    document.querySelectorAll('#topics input:checked'),
+    function(i){ return i.value; });
+
+  var placeholder = picked.length ? 'Select one' : 'Pick your sessions above first';
+  sel.innerHTML = '<option value="" disabled>'+esc(placeholder)+'</option>' +
+    picked.map(function(o){
+      return '<option value="'+esc(o)+'">'+esc(o)+'</option>';
+    }).join('');
+
+  // Drop the value if the user unchecked that session, rather than submitting
+  // a pick they no longer hold.
+  sel.value = picked.indexOf(prev) > -1 ? prev : '';
+}
+
 limitGroup('topics','topicCount',5);
 limitGroup('formats','formatCount',3);
+syncMustHave();
 
 /* ---------- Progress ---------- */
-var TOTAL = 25;
+/* Counts required fields only, so 100 percent means the form will actually
+   submit. Counting the optional write-ins made a complete, submittable
+   response read as roughly 70 percent. */
+var REQUIRED_TEXT = ['name','company','email','city_state',
+                     'biggest_problem','must_have_session'];
+var REQUIRED_GROUPS = ['topics[]'];
+var TOTAL = REQUIRED_TEXT.length + REQUIRED_GROUPS.length;
+
 function updateProgress(){
   var f = document.getElementById('survey');
   var done = 0;
-  // text and textarea and select, by name
-  ['name','company','email','city_state','biggest_problem','expensive_mistake',
-   'must_have_session','missing_topic','dream_speaker','anything_else']
-   .forEach(function(n){
-     var el = f.elements[n];
-     if(el && String(el.value).trim() !== '') done++;
-   });
-  // grouped inputs
-  ['role','headcount','methods[]','harder[]','topics[]','learning_format[]','two_track',
-   'recordings','drive_distance','dates_work','price','barrier','likelihood',
-   'group_size','past_attendee']
-   .forEach(function(n){
-     if(f.querySelector('[name="'+n+'"]:checked')) done++;
-   });
+  REQUIRED_TEXT.forEach(function(n){
+    var el = f.elements[n];
+    if(el && String(el.value).trim() !== '') done++;
+  });
+  REQUIRED_GROUPS.forEach(function(n){
+    if(f.querySelector('[name="'+n+'"]:checked')) done++;
+  });
   var pctVal = Math.min(100, Math.round(done / TOTAL * 100));
   document.getElementById('bar').style.width = pctVal + '%';
   document.getElementById('pct').textContent = pctVal + '% complete';
 }
+
 document.getElementById('survey').addEventListener('input', updateProgress);
 document.getElementById('survey').addEventListener('change', updateProgress);
 updateProgress();
