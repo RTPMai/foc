@@ -2,8 +2,9 @@
  * FOC27 survey, Sheet side.
  *
  * Setup, about five minutes:
- *  1. Create a Google Sheet. Rename the first tab to "Responses". A second
- *     tab named "Notify" is created automatically on the first signup.
+ *  1. Create a Google Sheet. Rename the first tab to "Responses". The
+ *     "Notify", "Sponsors" and "Speakers" tabs are created automatically on
+ *     the first submission of each kind.
  *  2. Extensions, Apps Script. Delete the sample code, paste this file in.
  *  3. Set TOKEN below to a long random string. Keep a copy.
  *  4. Deploy, New deployment, type Web app.
@@ -28,7 +29,7 @@
 
 var TOKEN = 'CHANGE-ME-TO-A-LONG-RANDOM-STRING';
 var DEFAULT_TAB = 'Responses';
-var ALLOWED_TABS = ['Responses', 'Notify'];
+var ALLOWED_TABS = ['Responses', 'Notify', 'Sponsors', 'Speakers'];
 
 // Email a one-line nudge when a response lands. Set to false for quiet mode.
 var NOTIFY = true;
@@ -45,7 +46,8 @@ function doPost(e) {
 
     var row = body.row || {};
 
-    // The survey writes to Responses, the notify form writes to Notify.
+    // Each form writes to its own tab: survey to Responses, notify list to
+    // Notify, sponsor inquiries to Sponsors, speaker proposals to Speakers.
     // Anything else is rejected so a bad payload cannot spawn stray tabs.
     var tab = body.tab || DEFAULT_TAB;
     if (ALLOWED_TABS.indexOf(tab) === -1) {
@@ -74,9 +76,15 @@ function doPost(e) {
       // A failed email must never fail the submission. The row is already saved.
       try {
         var count = sheet.getLastRow() - 1;
+        var LABELS = {
+          Notify: 'list signup',
+          Sponsors: 'sponsor inquiry',
+          Speakers: 'speaker proposal',
+          Responses: 'survey response'
+        };
         MailApp.sendEmail({
           to: NOTIFY_TO,
-          subject: 'FOC27 ' + (tab === 'Notify' ? 'list signup' : 'survey response') + ' #' + count,
+          subject: 'FOC27 ' + (LABELS[tab] || 'submission') + ' #' + count,
           body: 'A new response just landed.\n\n' + ss.getUrl()
         });
       } catch (mailErr) {

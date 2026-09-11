@@ -563,3 +563,142 @@ section{ padding:64px 0; }
 }
 .signup__done h2{margin:0 0 10px;font-size:1.3rem}
 .signup__done p{margin:0;color:var(--grey);line-height:1.65}
+
+/* ---------- Geography bars (sponsor / speak) ---------- */
+.geo{
+  border:2px solid var(--grey-light); border-radius:var(--radius-block);
+  padding:24px 26px;
+}
+.geo__title{
+  font-family:var(--font-mono); font-weight:600; font-size:0.72rem;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--sky-deep);
+  margin:0 0 18px;
+}
+.geo__row{ display:grid; grid-template-columns:64px 1fr auto; gap:14px; align-items:center; margin-bottom:10px; }
+.geo__row:last-child{ margin-bottom:0; }
+.geo__label{
+  font-family:var(--font-mono); font-size:0.74rem; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--ink);
+}
+.geo__bar{ background:var(--grey-light); height:14px; border-radius:2px; overflow:hidden; }
+.geo__fill{ background:var(--sky); height:100%; display:block; }
+.geo__fill--dark{ background:var(--navy); }
+.geo__val{ font-family:var(--font-mono); font-size:0.78rem; color:var(--grey); white-space:nowrap; }
+@media (max-width:560px){
+  .geo__row{ grid-template-columns:52px 1fr auto; gap:10px; }
+  .geo__val{ font-size:0.7rem; }
+}
+
+/* ---------- Sponsor tiers ---------- */
+.tier-stack{ display:grid; gap:20px; }
+.tier{ border-radius:var(--radius-block); padding:28px 30px; }
+.tier--silver{ background:var(--grey-light); color:var(--ink); }
+.tier--gold{ background:var(--gold); color:var(--navy-deep); }
+.tier--presenting{ background:var(--navy); color:var(--white); }
+.tier__head{
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:16px; flex-wrap:wrap; padding-bottom:14px; margin-bottom:18px;
+  border-bottom:2px solid currentColor;
+}
+.tier__name{ font-family:var(--font-display); font-size:1.5rem; text-transform:uppercase; margin:0; }
+.tier__avail{
+  font-family:var(--font-mono); font-size:0.7rem; font-weight:600;
+  letter-spacing:.14em; text-transform:uppercase; opacity:0.7; margin-left:10px;
+}
+.tier__price{ font-family:var(--font-display); font-size:1.6rem; white-space:nowrap; }
+.tier--presenting .tier__price{ color:var(--gold); }
+.tier__list{ list-style:none; margin:0; padding:0; }
+.tier__list li{ position:relative; padding-left:22px; margin-bottom:9px; font-size:0.98rem; }
+.tier__list li:last-child{ margin-bottom:0; }
+.tier__list li::before{
+  content:">"; position:absolute; left:0; top:0;
+  font-family:var(--font-mono); font-weight:600; opacity:0.55;
+}
+
+/* ---------- Two-column do / do not list ---------- */
+.split{ display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+@media (max-width:760px){ .split{ grid-template-columns:1fr; gap:28px; } }
+.split__head{
+  font-family:var(--font-mono); font-weight:600; font-size:0.72rem;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--grey);
+  padding-bottom:10px; margin:0 0 16px; border-bottom:2px solid var(--navy);
+}
+.split__list{ list-style:none; margin:0; padding:0; }
+.split__list li{ position:relative; padding-left:22px; margin-bottom:11px; color:var(--ink); }
+.split__list li::before{
+  content:">"; position:absolute; left:0; top:0;
+  font-family:var(--font-mono); font-weight:600; color:var(--gold-deep);
+}
+.split__list--muted li{ color:var(--grey); }
+.split__list--muted li::before{ color:var(--grey); }
+
+/* ---------- Compact two-day grid ---------- */
+.sched-mini{ display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+@media (max-width:760px){ .sched-mini{ grid-template-columns:1fr; gap:24px; } }
+.sched-mini__day{
+  font-family:var(--font-mono); font-weight:600; font-size:0.72rem;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--sky-deep);
+  margin:0 0 14px;
+}
+.sched-mini__row{
+  display:grid; grid-template-columns:64px 1fr; gap:14px; align-items:baseline;
+  background:var(--grey-light); border-radius:var(--radius-block);
+  padding:11px 14px; margin-bottom:8px;
+}
+.sched-mini__row--mark{ background:var(--gold); }
+.sched-mini__row--end{ background:none; padding:11px 14px 0; }
+.sched-mini__time{ font-family:var(--font-mono); font-weight:600; font-size:0.82rem; color:var(--navy); }
+.sched-mini__label{ font-size:0.95rem; color:var(--ink); }
+.sched-mini__row--mark .sched-mini__label{ font-weight:600; }
+.sched-mini__row--end .sched-mini__label{ color:var(--grey); font-size:0.88rem; }
+
+/* ---------- Dated milestone list ---------- */
+.dates{ list-style:none; margin:0; padding:0; }
+.dates li{
+  display:grid; grid-template-columns:auto 1fr; gap:16px;
+  padding:12px 0; border-bottom:1px solid var(--grey-light);
+}
+.dates li:last-child{ border-bottom:none; }
+.dates__when{
+  font-family:var(--font-mono); font-weight:600; font-size:0.8rem;
+  color:var(--navy); white-space:nowrap;
+}
+.dates__what{ color:var(--grey); font-size:0.95rem; }
+.dates li:last-child .dates__what{ color:var(--ink); font-weight:600; }
+@media (max-width:560px){ .dates li{ grid-template-columns:1fr; gap:3px; } }
+
+/* ---------- Wider intake form ---------- */
+.signup--wide{ max-width:100%; }
+.form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 24px; }
+@media (max-width:700px){ .form-grid{ grid-template-columns:1fr; } }
+.signup__field--full{ grid-column:1 / -1; }
+.signup__field textarea,
+.signup__field select{
+  width:100%; box-sizing:border-box;
+  font-family:var(--font-body); font-size:1rem; color:var(--navy);
+  padding:13px 14px; background:#fff;
+  border:1px solid var(--grey-light); border-radius:2px;
+}
+.signup__field textarea{ min-height:110px; resize:vertical; line-height:1.5; }
+.signup__field textarea:focus,
+.signup__field select:focus{ outline:3px solid var(--sky); outline-offset:2px; border-color:var(--navy); }
+.signup__field .signup__hint{
+  margin:6px 0 0; font-size:0.84rem; color:var(--grey); text-transform:none;
+  letter-spacing:0; font-family:var(--font-body); font-weight:400;
+}
+
+/* .block-grid is a 12 column grid. A block with no explicit span collapses to
+   1/12 and looks broken, so the two-up comparison blocks get a named class
+   instead of an inline style repeated on every page. */
+.block--half{ grid-column:span 6; }
+@media (max-width:760px){ .block--half{ grid-column:1 / -1; } }
+
+/* Both geography bars and the Presenting tier sit inside .section--navy, where
+   the default ink-on-white treatment disappears. */
+.section--navy .geo{ background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.18); }
+.section--navy .geo__label{ color:var(--white); }
+.section--navy .geo__bar{ background:rgba(255,255,255,0.12); }
+.section--navy .geo__val{ color:rgba(255,255,255,0.7); }
+.section--navy .geo__fill--dark{ background:var(--gold); }
+.section--navy .dates li{ border-bottom-color:rgba(255,255,255,0.15); }
+.section--navy .tier--presenting{ border:2px solid rgba(255,255,255,0.22); }

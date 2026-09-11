@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.flyovercon.ink/</loc><lastmod>2026-08-25</lastmod></url>
-  <url><loc>https://www.flyovercon.ink/about</loc><lastmod>2026-08-25</lastmod></url>
-  <url><loc>https://www.flyovercon.ink/notify</loc><lastmod>2026-08-25</lastmod></url>
-  <url><loc>https://www.flyovercon.ink/schedule</loc><lastmod>2026-08-25</lastmod></url>
-  <url><loc>https://www.flyovercon.ink/years-past</loc><lastmod>2026-08-25</lastmod></url>
-  <url><loc>https://www.flyovercon.ink/speakers</loc><lastmod>2026-08-25</lastmod></url>
-  <url><loc>https://www.flyovercon.ink/location</loc><lastmod>2026-08-25</lastmod></url>
+  <url><loc>https://www.flyovercon.ink/</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://www.flyovercon.ink/about</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://www.flyovercon.ink/notify</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://www.flyovercon.ink/schedule</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://www.flyovercon.ink/years-past</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://www.flyovercon.ink/speakers</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://www.flyovercon.ink/location</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://www.flyovercon.ink/sponsor</loc><lastmod>2026-09-11</lastmod></url>
+  <url><loc>https://www.flyovercon.ink/speak</loc><lastmod>2026-09-11</lastmod></url>
 </urlset>

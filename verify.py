@@ -15,7 +15,7 @@ BASE = "https://www.flyovercon.ink"
 NOINDEX_PAGES = {"survey.html"}
 
 # Serverless functions that must survive every build. See COPY_FILES.
-REQUIRED_FILES = ["api/survey.js"]
+REQUIRED_FILES = ["api/survey.js", "api/notify.js", "api/sponsor.js", "api/speak.js"]
 
 # Standalone pages that ship noindex on purpose. They are exempt from the
 # JSON-LD and sitemap-membership rules, and are checked instead for the
@@ -111,6 +111,19 @@ def check_jsonld(pages):
                 json.loads(b)
             except json.JSONDecodeError as e:
                 fail(f"{p}: invalid JSON-LD ({e})")
+
+
+def check_private_dinner(pages):
+    """The April 15 sponsor and speaker dinner is invite only. It appears in the
+    sponsor packet and the call for speakers PDF, both of which are sent to
+    named prospects. It must never reach a public page. Easy to reintroduce by
+    pasting from those PDFs, so the build refuses instead of trusting memory."""
+    for p, html in pages:
+        low = html.lower()
+        if "april 15" in low:
+            fail(f"{p}: mentions April 15, the invite only dinner is not public")
+        if "dinner" in low:
+            fail(f"{p}: mentions a dinner, the invite only dinner is not public")
 
 
 def check_em_dashes(pages):
@@ -275,6 +288,7 @@ def main():
     check_single_h1(pages)
     check_jsonld(pages)
     check_em_dashes(pages)
+    check_private_dinner(pages)
     check_canonicals(pages)
     check_sitemap(pages)
     check_vercel_config()
