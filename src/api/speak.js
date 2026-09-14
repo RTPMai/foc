@@ -76,6 +76,48 @@ async function appendToSheet(row) {
   if (body.ok !== true) throw new Error("sheet webhook refused: " + (body.error || text.slice(0, 200)));
 }
 
+// ConControl, the internal event tracker. A second home for the same
+// submission, alongside the Sheet, so an inquiry becomes a record with a clock
+// on it instead of a row somebody has to notice and re-key.
+//
+// DELIBERATELY A THIRD SINK, NOT A REPLACEMENT. The Sheet keeps running. Two
+// places holding the same handful of rows costs nothing, and a sponsor inquiry
+// that vanishes because a new endpoint had a bad day is the one failure worth
+// engineering around. Drop the Sheet once this has caught real submissions for
+// a few weeks, or keep it as a backup.
+//
+// NEVER FAILS THE SUBMISSION. Its errors are logged and nothing else: the
+// person on the page has done their part, and telling them it failed when the
+// Sheet and the email both worked would be a lie that costs a sponsor.
+//
+// Env vars:
+//   CONCONTROL_URL     e.g. https://app.pmapparel.com  (or the vercel.app host
+//                      until that DNS is pointed). Unset means "not wired up
+//                      yet" and this quietly does nothing.
+//   CONCONTROL_SECRET  shared with CONCONTROL_INTAKE_SECRET on the other side.
+//                      Every submission reaches ConControl from one Vercel
+//                      address, so without this the per-IP rate limit meant for
+//                      one abuser would cap the whole event.
+async function forwardToConControl(path, payload) {
+  const base = process.env.CONCONTROL_URL;
+  if (!base) return;
+
+  const headers = { "Content-Type": "application/json" };
+  if (process.env.CONCONTROL_SECRET) headers["x-intake-secret"] = process.env.CONCONTROL_SECRET;
+
+  // A slow or hanging ConControl must not hold the form open. Five seconds is
+  // far longer than a healthy write and far shorter than a person waits.
+  const stop = AbortSignal.timeout ? AbortSignal.timeout(5000) : undefined;
+
+  const res = await fetch(base.replace(/\/+$/, "") + path, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(payload),
+    signal: stop,
+  });
+  if (!res.ok) throw new Error("concontrol returned " + res.status);
+}
+
 async function emailCopy(row) {
   const key = process.env.RESEND_API_KEY;
   if (!key) return;
@@ -138,6 +180,30 @@ export default async function handler(req, res) {
   } catch (err) {
     sheetError = err;
     console.error("speak: sheet append failed:", err.message);
+  }
+
+  try {
+    // The proposal is longer than one field. Title and takeaway are the pitch
+    // and go in as the topic; the practical answers go to notes rather than
+    // being dropped, because "what equipment do you need" is exactly what gets
+    // asked again in March if nobody wrote it down.
+    await forwardToConControl("/api/concontrol/speak", {
+      name: row.name,
+      email: row.email,
+      shop: row.shop,
+      phone: row.phone,
+      session_title: [row.session_title, row.takeaway].filter(Boolean).join("\n\n"),
+      notes: [
+        row.role ? "Role: " + row.role : "",
+        row.format ? "Format: " + row.format : "",
+        row.equipment ? "Equipment: " + row.equipment : "",
+        row.sample ? "Sample or demo: " + row.sample : "",
+        row.notes ? "Notes: " + row.notes : "",
+      ].filter(Boolean).join("\n"),
+    });
+  } catch (err) {
+    // Logged and swallowed on purpose. See forwardToConControl.
+    console.error("speak: concontrol forward failed:", err.message);
   }
 
   try {
