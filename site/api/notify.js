@@ -2,16 +2,21 @@
 // Lives at https://www.flyovercon.ink/api/notify so the form POSTs same origin
 // and the highest intent click on the site never leaves the domain.
 //
-// Writes to a separate "Notify" tab in the same Sheet as the survey, through
-// the same Apps Script webhook, so there is only one backend to keep alive.
+// Writes to ConControl, the internal event tracker. No Google Sheet. The
+// survey still uses the Sheet; this form does not.
 //
-// Env vars, shared with the survey function:
-//   SHEETS_WEBHOOK_URL   required
-//   SHEETS_WEBHOOK_TOKEN required
-//   RESEND_API_KEY       optional
+// Env vars:
+//   CONCONTROL_URL       required, e.g. https://app.pmapparel.com (or the
+//                        vercel.app host until that DNS is pointed)
+//   CONCONTROL_SECRET    strongly recommended, shared with
+//                        CONCONTROL_INTAKE_SECRET on the other side. Every
+//                        submission reaches ConControl from one Vercel
+//                        address, so without it the per-IP rate limit meant
+//                        for one abuser would cap the whole event.
+//   RESEND_API_KEY       optional, but it is the only backup. If ConControl
+//                        has a bad day and this is set, the signup still
+//                        reaches you by email and the visitor sees success.
 //   SURVEY_NOTIFY_TO     optional, defaults to ryan@flyovercon.ink
-//   CONCONTROL_URL       optional, same as sponsor.js and speak.js
-//   CONCONTROL_SECRET    optional, same as sponsor.js and speak.js
 //
 // This deliberately duplicates a little logic from survey.js rather than
 // importing a shared module. The bundler handles relative imports fine, but
@@ -19,7 +24,6 @@
 // failure mode to save forty lines.
 
 const MAX_BODY_BYTES = 8 * 1024;
-const SHEET_TAB = "Notify";
 const NOTIFY_FROM = "Flyover Con <survey@flyovercon.ink>";
 
 function readJsonBody(req) {
@@ -56,53 +60,9 @@ function looksLikeEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
 }
 
-async function appendToSheet(row) {
-  const url = process.env.SHEETS_WEBHOOK_URL;
-  const token = process.env.SHEETS_WEBHOOK_TOKEN;
-  if (!url || !token) throw new Error("SHEETS_WEBHOOK_URL or SHEETS_WEBHOOK_TOKEN is not set");
-
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token, tab: SHEET_TAB, row }),
-    redirect: "follow",
-  });
-  if (!res.ok) throw new Error("sheet webhook returned " + res.status);
-  const text = await res.text();
-  let body;
-  try {
-    body = JSON.parse(text);
-  } catch (err) {
-    throw new Error("sheet webhook returned non JSON: " + text.slice(0, 200));
-  }
-  if (body.ok !== true) throw new Error("sheet webhook refused: " + (body.error || text.slice(0, 200)));
-}
-
-// ConControl, the internal event tracker. A second home for the same
-// submission, alongside the Sheet, so an inquiry becomes a record with a clock
-// on it instead of a row somebody has to notice and re-key.
-//
-// DELIBERATELY A THIRD SINK, NOT A REPLACEMENT. The Sheet keeps running. Two
-// places holding the same handful of rows costs nothing, and a sponsor inquiry
-// that vanishes because a new endpoint had a bad day is the one failure worth
-// engineering around. Drop the Sheet once this has caught real submissions for
-// a few weeks, or keep it as a backup.
-//
-// NEVER FAILS THE SUBMISSION. Its errors are logged and nothing else: the
-// person on the page has done their part, and telling them it failed when the
-// Sheet and the email both worked would be a lie that costs a sponsor.
-//
-// Env vars:
-//   CONCONTROL_URL     e.g. https://app.pmapparel.com  (or the vercel.app host
-//                      until that DNS is pointed). Unset means "not wired up
-//                      yet" and this quietly does nothing.
-//   CONCONTROL_SECRET  shared with CONCONTROL_INTAKE_SECRET on the other side.
-//                      Every submission reaches ConControl from one Vercel
-//                      address, so without this the per-IP rate limit meant for
-//                      one abuser would cap the whole event.
-async function forwardToConControl(path, payload) {
+async function sendToConControl(path, payload) {
   const base = process.env.CONCONTROL_URL;
-  if (!base) return;
+  if (!base) throw new Error("CONCONTROL_URL is not set");
 
   const headers = { "Content-Type": "application/json" };
   if (process.env.CONCONTROL_SECRET) headers["x-intake-secret"] = process.env.CONCONTROL_SECRET;
@@ -120,12 +80,14 @@ async function forwardToConControl(path, payload) {
   if (!res.ok) throw new Error("concontrol returned " + res.status);
 }
 
+// Returns true only if Resend actually accepted the email, so it can be
+// trusted as the backup when ConControl fails.
 async function emailCopy(row) {
   const key = process.env.RESEND_API_KEY;
-  if (!key) return;
+  if (!key) return false;
   const to = process.env.SURVEY_NOTIFY_TO || "ryan@flyovercon.ink";
   const lines = Object.keys(row).map((k) => k + ": " + row[k]).join("\n");
-  await fetch("https://api.resend.com/emails", {
+  const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -135,6 +97,8 @@ async function emailCopy(row) {
       text: lines,
     }),
   });
+  if (!res.ok) throw new Error("resend returned " + res.status);
+  return true;
 }
 
 export default async function handler(req, res) {
@@ -165,36 +129,21 @@ export default async function handler(req, res) {
     return res.status(400).json({ ok: false, error: "that email address does not look right" });
   }
 
-  let sheetError = null;
+  let recorded = false;
+
   try {
-    await appendToSheet(row);
+    await sendToConControl("/api/concontrol/signup", row);
+    recorded = true;
   } catch (err) {
-    sheetError = err;
-    console.error("notify: sheet append failed:", err.message);
+    console.error("notify: concontrol failed:", err.message);
   }
 
   try {
-    await forwardToConControl("/api/concontrol/signup", {
-      name: row.name,
-      email: row.email,
-      city_state: row.city_state,
-      submitted_at: row.submitted_at,
-    });
-  } catch (err) {
-    // Logged and swallowed on purpose. See forwardToConControl.
-    console.error("notify: concontrol forward failed:", err.message);
-  }
-
-  try {
-    await emailCopy(row);
+    if (await emailCopy(row)) recorded = true;
   } catch (err) {
     console.error("notify: email copy failed:", err.message);
-    if (sheetError) return res.status(500).json({ ok: false, error: "could not record signup" });
   }
 
-  if (sheetError && !process.env.RESEND_API_KEY) {
-    return res.status(500).json({ ok: false, error: "could not record signup" });
-  }
-
+  if (!recorded) return res.status(500).json({ ok: false, error: "could not record signup" });
   return res.status(200).json({ ok: true });
 }
