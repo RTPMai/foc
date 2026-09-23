@@ -11,7 +11,7 @@ BASE            = "https://www.flyovercon.ink"
 SITE_NAME       = "Flyover Con"
 TAGLINE         = "The Midwest's conference for screen printers and decorators."
 EMAIL           = "ryan@flyovercon.ink"
-TODAY           = "2026-09-22"
+TODAY           = "2026-09-23"
 UPDATED_HUMAN   = "September 2026"
 
 # FOC27, public dates. The Thursday April 15 dinner is invite only and must not
@@ -26,6 +26,17 @@ PARENT_ADDR     = "1100 S 5th St, Polk City, IA 50226"
 IG              = "https://www.instagram.com/flyover_con/"
 FB              = "https://www.facebook.com/profile.php?id=61556233233152"
 OUT             = "site"
+
+# FOC27 is presented by SanMar. The presenting sponsor lockups carry the
+# sponsor credit wherever there is room to read it (home hero, footer). The nav
+# is too small for "presented by" to be legible, so it gets the 2027 badge
+# alone. The Organization schema keeps logo-512.png: that is Flyover Con the
+# organization, not this year's event, and should not carry a sponsor.
+PRESENTING_SPONSOR = "SanMar"
+LOGO_BADGE      = "/assets/img/foc27-badge.svg"                 # 388.5 x 359.38
+LOGO_STACKED    = "/assets/img/foc27-presented-stacked.svg"     # 381.55 x 431.21
+LOGO_HORIZONTAL = "/assets/img/foc27-presented-horizontal.svg"  # 590.98 x 359.38
+SPONSOR_WORDMARK = "/assets/img/sanmar-white.svg"               # 764.59 x 154.35
 
 # The FOC27 notify list lives on our own domain now. The old Alliteration
 # MailMe page is retired: it sent the highest intent click on the site off to a
@@ -70,7 +81,7 @@ SPONSOR_TIERS = [
         "Dedicated social media features before and during the event",
         "Opt in attendee contact list following the event",
     ]),
-    ("presenting", "Presenting", "1 available", "$7,000", [
+    ("presenting", "Presenting", "Claimed", "$7,000", [
         "Everything in Gold, plus:",
         "Event branded as &ldquo;Flyover Con presented by [Sponsor]&rdquo; across all materials",
         "Stage recognition at opening and closing sessions, option to give the welcome address",
@@ -390,7 +401,7 @@ PAGES = {
     "schema": [
       "[{\"@context\": \"https://schema.org\", \"@type\": \"Organization\", \"name\": \"Flyover Con\", \"url\": \"https://www.flyovercon.ink\", \"logo\": \"https://www.flyovercon.ink/assets/img/logo-512.png\", \"sameAs\": [\"https://www.instagram.com/flyover_con/\", \"https://www.facebook.com/profile.php?id=61556233233152\"], \"parentOrganization\": {\"@type\": \"Organization\", \"name\": \"P&M Apparel\", \"url\": \"https://www.pmapparel.com\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Home\", \"item\": \"https://www.flyovercon.ink/\"}]}, {\"@context\": \"https://schema.org\", \"@type\": \"Event\", \"name\": \"Flyover Con 2027\", \"image\": [\"https://www.flyovercon.ink/assets/img/event/foc26-hero-16x9.jpg\", \"https://www.flyovercon.ink/assets/img/event/foc26-hero-4x3.jpg\", \"https://www.flyovercon.ink/assets/img/event/foc26-hero-1x1.jpg\"], \"url\": \"https://www.flyovercon.ink/\", \"startDate\": \"2027-04-16\", \"endDate\": \"2027-04-17\", \"eventAttendanceMode\": \"https://schema.org/OfflineEventAttendanceMode\", \"eventStatus\": \"https://schema.org/EventScheduled\", \"location\": {\"@type\": \"Place\", \"name\": \"P&M Apparel\", \"address\": {\"@type\": \"PostalAddress\", \"streetAddress\": \"1100 S 5th St\", \"addressLocality\": \"Polk City\", \"addressRegion\": \"IA\", \"postalCode\": \"50226\", \"addressCountry\": \"US\"}}, \"description\": \"The third Flyover Con, a hands-on conference for Midwest screen printers and decorators, hosted inside P&M Apparel's working production facility in Polk City, Iowa. Attendance is capped at 75.\", \"organizer\": {\"@type\": \"Organization\", \"name\": \"P&M Apparel\", \"url\": \"https://www.pmapparel.com\"}, \"maximumAttendeeCapacity\": 75}]"
     ],
-    "main": f"\n\n<section class=\"hero\">\n  <div class=\"container hero__inner\">\n    <img class=\"hero__logo\" src=\"/assets/img/logo-compact.png\" alt=\"Flyover Con logo\" width=\"260\" height=\"245\">\n    <div class=\"hero__eyebrow\">Status Board: Polk&nbsp;City,&nbsp;Iowa</div>\n    <div class=\"plaque\" style=\"margin:0 auto 22px;\"><p class=\"plaque__text\">FOC27: April 16&ndash;17, 2027</p></div>\n    <h1>The Midwest's conference<br>for people who <span class=\"accent\">make things.</span></h1>\n    <p class=\"hero__lead\">The Midwest's conference for screen printers and decorators. Hosted inside a working screen print and embroidery shop by P&M Apparel. No vendor booths, no sales pitches, just the shop floor and the people running it.</p>\n    <div class=\"hero__actions\">\n      <a class=\"btn btn--gold\" href=\"{NOTIFY_URL}\">Get Notified for FOC27</a>\n      <a class=\"btn btn--outline\" href=\"https://www.youtube.com/watch?v=q7Qx18jLp_o\" rel=\"noopener\" target=\"_blank\">See the FOC26 Recap</a>\n    </div>\n  </div>\n</section>\n\n<section>\n  <div class=\"container\">\n    <div class=\"section-head\">\n      <span class=\"section-head__eyebrow\">What It Is</span>\n      <h2>Not a trade show. A working shop floor.</h2>\n      <p>Flyover Con is a hands-on conference for screen printers, embroiderers, and decorators who want practical learning, real conversations, and a stronger sense of community, built and hosted by P&amp;M Apparel, right inside their own working screen print and embroidery facility.</p>\n    </div>\n    <div class=\"stat-strip\">\n      <div class=\"stat\"><span class=\"stat__num\">2</span><span class=\"stat__label\">Conferences So Far</span></div>\n<div class=\"stat\"><span class=\"stat__num\">16</span><span class=\"stat__label\">Sessions at FOC26</span></div>\n<div class=\"stat\"><span class=\"stat__num\">19</span><span class=\"stat__label\">Speakers &amp; Panelists</span></div>\n<div class=\"stat\"><span class=\"stat__num\">2</span><span class=\"stat__label\">Days on the Shop Floor</span></div>\n    </div>\n  </div>\n</section>\n\n<section>\n  <div class=\"container\">\n    <div class=\"section-head\">\n      <span class=\"section-head__eyebrow\">From The Floor</span>\n      <h2>What people actually said.</h2>\n    </div>\n    <div class=\"testimonial-strip\">\n      <div class=\"testimonial\">\n        <p class=\"testimonial__quote\">This was the first time we&rsquo;ve left a show and didn&rsquo;t say &ldquo;I wish they would&rsquo;ve talked about this or that.&rdquo;</p>\n        <div class=\"testimonial__source\">\n          <p class=\"testimonial__name\">Darci</p>\n          <p class=\"testimonial__shop\">Spot On Printing</p>\n        </div>\n      </div>\n      <div class=\"testimonial\">\n        <p class=\"testimonial__quote\">The friendly faces and no-gatekeeping mentality. It was so refreshing.</p>\n        <div class=\"testimonial__source\">\n          <p class=\"testimonial__name\">Emily</p>\n          <p class=\"testimonial__shop\">Sparkling Image</p>\n        </div>\n      </div>\n      <div class=\"testimonial\">\n        <p class=\"testimonial__quote\">Try to keep me away. I dare you.</p>\n        <div class=\"testimonial__source\">\n          <p class=\"testimonial__name\">Peter</p>\n          <p class=\"testimonial__shop\">A&amp;P Graphics</p>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>\n\n<section>\n  <div class=\"container\">\n    <div class=\"section-head\">\n      <span class=\"section-head__eyebrow\">From FOC26</span>\n      <h2>Scenes from the shop floor.</h2>\n    </div>\n    <div class=\"photo-strip\">\n      <img src=\"/assets/img/event/foc26-007.jpg\" alt=\"Flyover Con VIP Lounge refreshment station\" loading=\"lazy\" width=\"400\" height=\"220\">\n      <img src=\"/assets/img/event/foc26-006.jpg\" alt=\"Attendees talking between sessions at Flyover Con\" loading=\"lazy\" width=\"400\" height=\"220\">\n      <img src=\"/assets/img/event/foc26-002.jpg\" alt=\"A speaker presenting to the room at Flyover Con\" loading=\"lazy\" width=\"400\" height=\"220\">\n      <img src=\"/assets/img/event/foc26-009.jpg\" alt=\"A speaker presenting near the Gate B sign at Flyover Con\" loading=\"lazy\" width=\"400\" height=\"220\">\n    </div>\n  </div>\n</section>\n\n<section>\n  <div class=\"container\">\n    <div class=\"section-head\">\n      <span class=\"section-head__eyebrow\">FOC27</span>\n      <h2>Sponsorship is open.</h2>\n      <p>FOC26 was made possible by SanMar, Limitless Transfers, PrintGrip, Chipply, S&amp;S Activewear, SPSI, Embellishr, and Atonal Headwear. Every level for FOC27 is open now, and commitments are due {SPONSOR_DEADLINE}.</p>\n    </div>\n    <div class=\"hero__actions\" style=\"justify-content:flex-start;\">\n      <a class=\"btn btn--gold\" href=\"{SPONSOR_URL}\">See Sponsor Levels</a>\n      <a class=\"btn btn--outline\" href=\"{SPEAK_URL}\">Submit a Session</a>\n    </div>\n  </div>\n</section>\n\n"
+    "main": f"\n\n<section class=\"hero\">\n  <div class=\"container hero__inner\">\n    <img class=\"hero__logo\" src=\"{LOGO_STACKED}\" alt=\"Flyover Con 2027, presented by {PRESENTING_SPONSOR}\" width=\"260\" height=\"294\">\n    <div class=\"hero__eyebrow\">Status Board: Polk&nbsp;City,&nbsp;Iowa</div>\n    <div class=\"plaque\" style=\"margin:0 auto 22px;\"><p class=\"plaque__text\">FOC27: April 16&ndash;17, 2027</p></div>\n    <h1>The Midwest's conference<br>for people who <span class=\"accent\">make things.</span></h1>\n    <p class=\"hero__lead\">The Midwest's conference for screen printers and decorators. Hosted inside a working screen print and embroidery shop by P&M Apparel. No vendor booths, no sales pitches, just the shop floor and the people running it.</p>\n    <div class=\"hero__actions\">\n      <a class=\"btn btn--gold\" href=\"{NOTIFY_URL}\">Get Notified for FOC27</a>\n      <a class=\"btn btn--outline\" href=\"https://www.youtube.com/watch?v=q7Qx18jLp_o\" rel=\"noopener\" target=\"_blank\">See the FOC26 Recap</a>\n    </div>\n  </div>\n</section>\n\n<section>\n  <div class=\"container\">\n    <div class=\"section-head\">\n      <span class=\"section-head__eyebrow\">What It Is</span>\n      <h2>Not a trade show. A working shop floor.</h2>\n      <p>Flyover Con is a hands-on conference for screen printers, embroiderers, and decorators who want practical learning, real conversations, and a stronger sense of community, built and hosted by P&amp;M Apparel, right inside their own working screen print and embroidery facility.</p>\n    </div>\n    <div class=\"stat-strip\">\n      <div class=\"stat\"><span class=\"stat__num\">2</span><span class=\"stat__label\">Conferences So Far</span></div>\n<div class=\"stat\"><span class=\"stat__num\">16</span><span class=\"stat__label\">Sessions at FOC26</span></div>\n<div class=\"stat\"><span class=\"stat__num\">19</span><span class=\"stat__label\">Speakers &amp; Panelists</span></div>\n<div class=\"stat\"><span class=\"stat__num\">2</span><span class=\"stat__label\">Days on the Shop Floor</span></div>\n    </div>\n  </div>\n</section>\n\n<section>\n  <div class=\"container\">\n    <div class=\"section-head\">\n      <span class=\"section-head__eyebrow\">From The Floor</span>\n      <h2>What people actually said.</h2>\n    </div>\n    <div class=\"testimonial-strip\">\n      <div class=\"testimonial\">\n        <p class=\"testimonial__quote\">This was the first time we&rsquo;ve left a show and didn&rsquo;t say &ldquo;I wish they would&rsquo;ve talked about this or that.&rdquo;</p>\n        <div class=\"testimonial__source\">\n          <p class=\"testimonial__name\">Darci</p>\n          <p class=\"testimonial__shop\">Spot On Printing</p>\n        </div>\n      </div>\n      <div class=\"testimonial\">\n        <p class=\"testimonial__quote\">The friendly faces and no-gatekeeping mentality. It was so refreshing.</p>\n        <div class=\"testimonial__source\">\n          <p class=\"testimonial__name\">Emily</p>\n          <p class=\"testimonial__shop\">Sparkling Image</p>\n        </div>\n      </div>\n      <div class=\"testimonial\">\n        <p class=\"testimonial__quote\">Try to keep me away. I dare you.</p>\n        <div class=\"testimonial__source\">\n          <p class=\"testimonial__name\">Peter</p>\n          <p class=\"testimonial__shop\">A&amp;P Graphics</p>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>\n\n<section>\n  <div class=\"container\">\n    <div class=\"section-head\">\n      <span class=\"section-head__eyebrow\">From FOC26</span>\n      <h2>Scenes from the shop floor.</h2>\n    </div>\n    <div class=\"photo-strip\">\n      <img src=\"/assets/img/event/foc26-007.jpg\" alt=\"Flyover Con VIP Lounge refreshment station\" loading=\"lazy\" width=\"400\" height=\"220\">\n      <img src=\"/assets/img/event/foc26-006.jpg\" alt=\"Attendees talking between sessions at Flyover Con\" loading=\"lazy\" width=\"400\" height=\"220\">\n      <img src=\"/assets/img/event/foc26-002.jpg\" alt=\"A speaker presenting to the room at Flyover Con\" loading=\"lazy\" width=\"400\" height=\"220\">\n      <img src=\"/assets/img/event/foc26-009.jpg\" alt=\"A speaker presenting near the Gate B sign at Flyover Con\" loading=\"lazy\" width=\"400\" height=\"220\">\n    </div>\n  </div>\n</section>\n\n<section>\n  <div class=\"container\">\n    <div class=\"section-head\">\n      <span class=\"section-head__eyebrow\">FOC27</span>\n      <h2>Sponsorship is open.</h2>\n      <p>FOC26 was made possible by SanMar, Limitless Transfers, PrintGrip, Chipply, S&amp;S Activewear, SPSI, Embellishr, and Atonal Headwear. FOC27 is presented by {PRESENTING_SPONSOR}. Silver and Gold are open now, and commitments are due {SPONSOR_DEADLINE}.</p>\n    </div>\n    <div class=\"hero__actions\" style=\"justify-content:flex-start;\">\n      <a class=\"btn btn--gold\" href=\"{SPONSOR_URL}\">See Sponsor Levels</a>\n      <a class=\"btn btn--outline\" href=\"{SPEAK_URL}\">Submit a Session</a>\n    </div>\n  </div>\n</section>\n\n"
   },
   "about": {
     "title": "About Flyover Con | Hands-On Decorator Conference",
@@ -491,7 +502,10 @@ def tier_blocks():
             f'          <h3 class="tier__name">{name}<span class="tier__avail">{avail}</span></h3>\n'
             f'          <span class="tier__price">{price}</span>\n'
             f'        </div>\n'
-            f'        <ul class="tier__list">\n{items}\n        </ul>\n'
+            + (f'        <p class="tier__claimed"><span>FOC27 presented by</span>'
+               f'<img src="{SPONSOR_WORDMARK}" alt="{PRESENTING_SPONSOR}" width="150" height="30"></p>\n'
+               if slug == "presenting" else "")
+            + f'        <ul class="tier__list">\n{items}\n        </ul>\n'
             f'      </div>'
         )
     return '    <div class="tier-stack">\n' + "\n".join(out) + "\n    </div>"
@@ -744,7 +758,6 @@ __TIERS__
           <label for="sp-level">Level you are considering</label>
           <select id="sp-level" name="level">
             <option value="">Not sure yet, let&rsquo;s talk</option>
-            <option value="Presenting">Presenting</option>
             <option value="Gold">Gold</option>
             <option value="Silver">Silver</option>
             <option value="In kind">In kind</option>
@@ -1164,7 +1177,7 @@ _SPONSOR_FAQ = json.dumps({
         {"@type": "Question", "name": "What does it cost to sponsor Flyover Con?",
          "acceptedAnswer": {"@type": "Answer", "text":
           "Flyover Con 2027 has three sponsor levels: Silver at $1,000 (unlimited), Gold at $2,500 "
-          "(three available) and Presenting at $7,000 (one available). Individual moments such as a "
+          "(three available) and Presenting at $7,000, which is claimed by " + PRESENTING_SPONSOR + " for 2027. Individual moments such as a "
           "lunch or the happy hour, and in kind support, are also available."}},
         {"@type": "Question", "name": "How many people will see my sponsorship?",
          "acceptedAnswer": {"@type": "Answer", "text":
@@ -1286,7 +1299,7 @@ def nav(key):
 <header class="site-nav">
   <div class="site-nav__inner">
     <a class="site-nav__logo" href="/">
-      <img src="/assets/img/logo-compact.png" alt="Flyover Con logo" width="48" height="45">
+      <img src="{LOGO_BADGE}" alt="Flyover Con 2027" width="52" height="48">
       <span>Flyover Con</span>
     </a>
     <button class="site-nav__toggle" aria-expanded="false" aria-label="Toggle navigation menu">Menu</button>
@@ -1306,7 +1319,7 @@ def footer():
   <div class="container">
     <div class="site-footer__top">
       <div class="site-footer__logo">
-        <img src="/assets/img/logo-compact.png" alt="Flyover Con logo" width="120" height="113">
+        <img src="{LOGO_HORIZONTAL}" alt="Flyover Con 2027, presented by {PRESENTING_SPONSOR}" width="197" height="120">
         <p class="site-footer__tagline">{TAGLINE}</p>
         <div class="social-links" style="margin-top:14px;">
           <a href="{IG}" aria-label="Flyover Con on Instagram" rel="noopener" target="_blank"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
@@ -1333,7 +1346,7 @@ def footer():
           </ul>
         </div>
         <div class="site-footer__col">
-          <h5>Presented By</h5>
+          <h5>Hosted By</h5>
           <ul>
             <li><a href="{PARENT_URL}" rel="noopener" target="_blank">{PARENT_NAME}</a></li>
             <li>{PARENT_ADDR}</li>
@@ -1348,7 +1361,7 @@ def footer():
       </nav>
     </div>
     <div class="site-footer__bottom">
-      <span>&copy; 2026 Flyover Con, presented by {PARENT_NAME}. Polk City, Iowa.</span>
+      <span>&copy; 2026 Flyover Con, hosted by {PARENT_NAME}. Polk City, Iowa.</span>
       <span>Updated {UPDATED_HUMAN}</span>
     </div>
   </div>
@@ -1432,13 +1445,13 @@ def robots():
 def llms():
     return f"""# Flyover Con
 
-> {TAGLINE} Presented by P&M Apparel, Polk City, Iowa.
+> {TAGLINE} Hosted by P&M Apparel, Polk City, Iowa. FOC27 is presented by {PRESENTING_SPONSOR}.
 
 Flyover Con is a hands-on conference for Midwest screen printers and decorators, hosted inside P&M Apparel's working production facility. A modest registration fee keeps it accessible while sponsors cover the rest. No vendor booths, no sales pitches. Real shop-floor learning from people who run print and embroidery shops every day.
 
 Most recent event: FOC26, April 17-18, 2026, in Polk City, Iowa. 16 sessions across two days, 19 speakers, hosted on the P&M Apparel shop floor.
 
-FOC27 is confirmed for April 16 and 17, 2027, at the same location, capped at 75 attendees. Schedule, speakers, and sponsors are not yet announced as of {UPDATED_HUMAN}. Sponsorship is open at three levels (Silver $1,000, Gold $2,500, Presenting $7,000) with commitments requested by {SPONSOR_DEADLINE}. The call for speakers is open and proposals close {PROPOSALS_CLOSE}.
+FOC27 is confirmed for April 16 and 17, 2027, at the same location, capped at 75 attendees. FOC27 is presented by {PRESENTING_SPONSOR}. Schedule and speakers are not yet announced as of {UPDATED_HUMAN}. Silver ($1,000) and Gold ($2,500) sponsorships are open; the Presenting level is claimed. Commitments are requested by {SPONSOR_DEADLINE}. The call for speakers is open and proposals close {PROPOSALS_CLOSE}.
 
 - About: {BASE}/about
 - Schedule (FOC27, April 16-17 2027, sessions TBD): {BASE}/schedule
@@ -1448,7 +1461,8 @@ FOC27 is confirmed for April 16 and 17, 2027, at the same location, capped at 75
 - Call for Speakers (FOC27 proposals close {PROPOSALS_CLOSE}): {BASE}/speak
 - Location: {BASE}/location
 - Contact: {EMAIL}
-- Presented by: P&M Apparel, {PARENT_URL}
+- Hosted by: P&M Apparel, {PARENT_URL}
+- FOC27 presenting sponsor: {PRESENTING_SPONSOR}
 """
 
 VERCEL = json.dumps({
