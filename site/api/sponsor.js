@@ -1,23 +1,24 @@
 // FOC27 sponsor inquiry intake.
 // Lives at https://www.flyovercon.ink/api/sponsor so the form POSTs same origin.
+// Writes to ConControl in Alliteration.
 //
-// Writes to a "Sponsors" tab in the same Sheet as the survey and notify list,
-// through the same Apps Script webhook, so there is still only one backend to
-// keep alive. The tab name must also be listed in ALLOWED_TABS inside
-// SHEET-APPS-SCRIPT.gs, or the webhook refuses the row.
-//
-// Env vars, shared with the survey and notify functions:
-//   SHEETS_WEBHOOK_URL   required
-//   SHEETS_WEBHOOK_TOKEN required
-//   RESEND_API_KEY       optional
+// Env vars:
+//   CONCONTROL_URL       required: https://alliteration.pmapparel.com
+//   CONCONTROL_SECRET    strongly recommended, shared with
+//                        CONCONTROL_INTAKE_SECRET on the other side. Every
+//                        submission reaches ConControl from one Vercel
+//                        address, so without it the per-IP rate limit meant
+//                        for one abuser would cap the whole event.
+//   RESEND_API_KEY       optional, but it is the only backup. If ConControl
+//                        has a bad day and this is set, the submission still
+//                        reaches you by email and the visitor sees success.
 //   SURVEY_NOTIFY_TO     optional, defaults to ryan@flyovercon.ink
 //
-// Deliberately duplicates logic from notify.js rather than importing a shared
-// module, same reasoning as that file: this is money coming in the door and it
-// is not worth a new failure mode to save forty lines.
+// Same shape as notify.js, deliberately duplicated rather than imported.
+// No Google Sheet. Only the survey still uses the Sheet.
 
 const MAX_BODY_BYTES = 16 * 1024;
-const SHEET_TAB = "Sponsors";
+
 const NOTIFY_FROM = "Flyover Con <survey@flyovercon.ink>";
 
 function readJsonBody(req) {
@@ -54,53 +55,9 @@ function looksLikeEmail(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
 }
 
-async function appendToSheet(row) {
-  const url = process.env.SHEETS_WEBHOOK_URL;
-  const token = process.env.SHEETS_WEBHOOK_TOKEN;
-  if (!url || !token) throw new Error("SHEETS_WEBHOOK_URL or SHEETS_WEBHOOK_TOKEN is not set");
-
-  const res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ token, tab: SHEET_TAB, row }),
-    redirect: "follow",
-  });
-  if (!res.ok) throw new Error("sheet webhook returned " + res.status);
-  const text = await res.text();
-  let body;
-  try {
-    body = JSON.parse(text);
-  } catch (err) {
-    throw new Error("sheet webhook returned non JSON: " + text.slice(0, 200));
-  }
-  if (body.ok !== true) throw new Error("sheet webhook refused: " + (body.error || text.slice(0, 200)));
-}
-
-// ConControl, the internal event tracker. A second home for the same
-// submission, alongside the Sheet, so an inquiry becomes a record with a clock
-// on it instead of a row somebody has to notice and re-key.
-//
-// DELIBERATELY A THIRD SINK, NOT A REPLACEMENT. The Sheet keeps running. Two
-// places holding the same handful of rows costs nothing, and a sponsor inquiry
-// that vanishes because a new endpoint had a bad day is the one failure worth
-// engineering around. Drop the Sheet once this has caught real submissions for
-// a few weeks, or keep it as a backup.
-//
-// NEVER FAILS THE SUBMISSION. Its errors are logged and nothing else: the
-// person on the page has done their part, and telling them it failed when the
-// Sheet and the email both worked would be a lie that costs a sponsor.
-//
-// Env vars:
-//   CONCONTROL_URL     e.g. https://app.pmapparel.com  (or the vercel.app host
-//                      until that DNS is pointed). Unset means "not wired up
-//                      yet" and this quietly does nothing.
-//   CONCONTROL_SECRET  shared with CONCONTROL_INTAKE_SECRET on the other side.
-//                      Every submission reaches ConControl from one Vercel
-//                      address, so without this the per-IP rate limit meant for
-//                      one abuser would cap the whole event.
-async function forwardToConControl(path, payload) {
+async function sendToConControl(path, payload) {
   const base = process.env.CONCONTROL_URL;
-  if (!base) return;
+  if (!base) throw new Error("CONCONTROL_URL is not set");
 
   const headers = { "Content-Type": "application/json" };
   if (process.env.CONCONTROL_SECRET) headers["x-intake-secret"] = process.env.CONCONTROL_SECRET;
@@ -115,31 +72,39 @@ async function forwardToConControl(path, payload) {
     body: JSON.stringify(payload),
     signal: stop,
   });
-  if (!res.ok) throw new Error("concontrol returned " + res.status);
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error("concontrol returned " + res.status + " " + text.slice(0, 200));
+  }
 }
 
-async function emailCopy(row) {
+// Returns true only if Resend actually accepted the email, so it can be
+// trusted as the backup when ConControl fails.
+async function emailCopy(row, subject) {
   const key = process.env.RESEND_API_KEY;
-  if (!key) return;
+  if (!key) return false;
   const to = process.env.SURVEY_NOTIFY_TO || "ryan@flyovercon.ink";
   const lines = Object.keys(row).map((k) => k + ": " + row[k]).join("\n");
-  await fetch("https://api.resend.com/emails", {
+  const res = await fetch("https://api.resend.com/emails", {
     method: "POST",
     headers: { Authorization: "Bearer " + key, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from: NOTIFY_FROM,
-      to: [to],
-      subject: "FOC27 sponsor inquiry: " + (row.company || row.name),
-      text: lines,
-    }),
+    body: JSON.stringify({ from: NOTIFY_FROM, to: [to], subject, text: lines }),
   });
+  if (!res.ok) throw new Error("resend returned " + res.status);
+  return true;
+}
+
+function preamble(req, res) {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "POST");
+    res.status(405).json({ ok: false, error: "method not allowed" });
+    return false;
+  }
+  return true;
 }
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ ok: false, error: "method not allowed" });
-  }
+  if (!preamble(req, res)) return;
 
   let payload;
   try {
@@ -158,7 +123,6 @@ export default async function handler(req, res) {
     phone: clean(payload.phone, 40),
     level: clean(payload.level, 60),
     notes: clean(payload.notes, 4000),
-    status: "New",
     submitted_at: new Date().toISOString(),
   };
 
@@ -168,16 +132,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ ok: false, error: "that email address does not look right" });
   }
 
-  let sheetError = null;
-  try {
-    await appendToSheet(row);
-  } catch (err) {
-    sheetError = err;
-    console.error("sponsor: sheet append failed:", err.message);
-  }
+  let recorded = false;
 
   try {
-    await forwardToConControl("/api/concontrol/inquiry", {
+    await sendToConControl("/api/concontrol/inquiry", {
       company: row.company,
       name: row.name,
       email: row.email,
@@ -185,21 +143,17 @@ export default async function handler(req, res) {
       level: row.level,
       notes: row.notes,
     });
+    recorded = true;
   } catch (err) {
-    // Logged and swallowed on purpose. See forwardToConControl.
-    console.error("sponsor: concontrol forward failed:", err.message);
+    console.error("sponsor: concontrol failed:", err.message);
   }
 
   try {
-    await emailCopy(row);
+    if (await emailCopy(row, "FOC27 sponsor inquiry: " + (row.company || row.name))) recorded = true;
   } catch (err) {
     console.error("sponsor: email copy failed:", err.message);
-    if (sheetError) return res.status(500).json({ ok: false, error: "could not record inquiry" });
   }
 
-  if (sheetError && !process.env.RESEND_API_KEY) {
-    return res.status(500).json({ ok: false, error: "could not record inquiry" });
-  }
-
+  if (!recorded) return res.status(500).json({ ok: false, error: "could not record inquiry" });
   return res.status(200).json({ ok: true });
 }

@@ -6,8 +6,7 @@
 // survey still uses the Sheet; this form does not.
 //
 // Env vars:
-//   CONCONTROL_URL       required, e.g. https://app.pmapparel.com (or the
-//                        vercel.app host until that DNS is pointed)
+//   CONCONTROL_URL       required: https://alliteration.pmapparel.com
 //   CONCONTROL_SECRET    strongly recommended, shared with
 //                        CONCONTROL_INTAKE_SECRET on the other side. Every
 //                        submission reaches ConControl from one Vercel
