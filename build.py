@@ -64,33 +64,6 @@ PROPOSALS_CLOSE   = "November 13, 2026"
 SPEAKERS_NOTIFIED = "December 11, 2026"
 MATERIALS_DUE     = "February 12, 2027"
 
-# Sponsor levels. Price is the string as it renders, availability is the small
-# mono label beside the name. Order runs low to high on purpose so the
-# "everything in the prior level" lines read in sequence.
-SPONSOR_TIERS = [
-    ("silver", "Silver", "Unlimited", "$1,000", [
-        "Logo on event signage, website and digital agenda",
-        "Mention during opening and closing remarks",
-        "Materials included in attendee swag bags",
-        "Group social media recognition and inclusion in event recaps",
-    ]),
-    ("gold", "Gold", "3 available", "$2,500", [
-        "Everything in Silver, plus:",
-        "Time to introduce yourself and your company to the full room on day one",
-        "Recognition during major sessions and at lunch",
-        "Dedicated social media features before and during the event",
-        "Opt in attendee contact list following the event",
-    ]),
-    ("presenting", "Presenting", "Claimed", "$7,000", [
-        "Everything in Gold, plus:",
-        "Event branded as &ldquo;Flyover Con presented by [Sponsor]&rdquo; across all materials",
-        "Stage recognition at opening and closing sessions, option to give the welcome address",
-        "Logo on attendee swag bags and event apparel",
-        "Featured in all pre event and post event social media",
-        "First right of refusal on the 2028 presenting slot",
-    ]),
-]
-
 # FOC27 sponsors shown on the home page. Each entry is (name, tier, url, logo).
 # tier is "presenting", "gold" or "silver" and sets the row it lands in.
 # logo is a path under assets/img/sponsors/, or None. With no logo (or a logo
@@ -106,6 +79,42 @@ SPONSORS = [
     ("S&amp;S Activewear", "silver",     "https://www.ssactivewear.com",      "/assets/img/sponsors/ss-activewear.png"),
     ("Chipply",            "silver",     "https://www.chipply.com",           "/assets/img/sponsors/chipply.png"),
     ("Atonal Headwear",    "silver",     "https://www.atonalheadwear.com",    "/assets/img/sponsors/atonal-headwear.png"),
+]
+
+# Gold is capped. Availability is counted from SPONSORS, so adding a Gold
+# sponsor above updates the level card, the FAQ and llms.txt on its own.
+GOLD_SLOTS = 3
+GOLD_LEFT  = GOLD_SLOTS - sum(1 for x in SPONSORS if x[1] == "gold")
+GOLD_AVAIL = f"{GOLD_LEFT} of {GOLD_SLOTS} left" if GOLD_LEFT > 0 else "Sold out"
+_NUM = {0: "none", 1: "one", 2: "two", 3: "three"}
+GOLD_FAQ   = (f"{_NUM[GOLD_SLOTS]} total, {_NUM.get(GOLD_LEFT, GOLD_LEFT)} left"
+              if GOLD_LEFT > 0 else "sold out")
+
+# Sponsor levels. Price is the string as it renders, availability is the small
+# mono label beside the name. Order runs low to high on purpose so the
+# "everything in the prior level" lines read in sequence.
+SPONSOR_TIERS = [
+    ("silver", "Silver", "Unlimited", "$1,000", [
+        "Logo on event signage, website and digital agenda",
+        "Mention during opening and closing remarks",
+        "Materials included in attendee swag bags",
+        "Group social media recognition and inclusion in event recaps",
+    ]),
+    ("gold", "Gold", GOLD_AVAIL, "$2,500", [
+        "Everything in Silver, plus:",
+        "Time to introduce yourself and your company to the full room on day one",
+        "Recognition during major sessions and at lunch",
+        "Dedicated social media features before and during the event",
+        "Opt in attendee contact list following the event",
+    ]),
+    ("presenting", "Presenting", "Claimed", "$7,000", [
+        "Everything in Gold, plus:",
+        "Event branded as &ldquo;Flyover Con presented by [Sponsor]&rdquo; across all materials",
+        "Stage recognition at opening and closing sessions, option to give the welcome address",
+        "Logo on attendee swag bags and event apparel",
+        "Featured in all pre event and post event social media",
+        "First right of refusal on the 2028 presenting slot",
+    ]),
 ]
 
 def sponsor_wall():
@@ -1222,7 +1231,7 @@ _SPONSOR_FAQ = json.dumps({
         {"@type": "Question", "name": "What does it cost to sponsor Flyover Con?",
          "acceptedAnswer": {"@type": "Answer", "text":
           "Flyover Con 2027 has three sponsor levels: Silver at $1,000 (unlimited), Gold at $2,500 "
-          "(three available) and Presenting at $7,000, which is claimed by " + PRESENTING_SPONSOR + " for 2027. Individual moments such as a "
+          "(" + GOLD_FAQ + ") and Presenting at $7,000, which is claimed by " + PRESENTING_SPONSOR + " for 2027. Individual moments such as a "
           "lunch or the happy hour, and in kind support, are also available."}},
         {"@type": "Question", "name": "How many people will see my sponsorship?",
          "acceptedAnswer": {"@type": "Answer", "text":
@@ -1496,7 +1505,7 @@ Flyover Con is a hands-on conference for Midwest screen printers and decorators,
 
 Most recent event: FOC26, April 17-18, 2026, in Polk City, Iowa. 16 sessions across two days, 19 speakers, hosted on the P&M Apparel shop floor.
 
-FOC27 is confirmed for April 16 and 17, 2027, at the same location, capped at 75 attendees. FOC27 is presented by {PRESENTING_SPONSOR}. Schedule and speakers are not yet announced as of {UPDATED_HUMAN}. Silver ($1,000) and Gold ($2,500) sponsorships are open; the Presenting level is claimed. Commitments are requested by {SPONSOR_DEADLINE}. The call for speakers is open and proposals close {PROPOSALS_CLOSE}.
+FOC27 is confirmed for April 16 and 17, 2027, at the same location, capped at 75 attendees. FOC27 is presented by {PRESENTING_SPONSOR}. Schedule and speakers are not yet announced as of {UPDATED_HUMAN}. Silver ($1,000, unlimited) and Gold ($2,500, {GOLD_FAQ}) sponsorships are open; the Presenting level is claimed. Commitments are requested by {SPONSOR_DEADLINE}. The call for speakers is open and proposals close {PROPOSALS_CLOSE}.
 
 - About: {BASE}/about
 - Schedule (FOC27, April 16-17 2027, sessions TBD): {BASE}/schedule
