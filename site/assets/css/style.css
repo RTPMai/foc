@@ -710,3 +710,48 @@ section{ padding:64px 0; }
 .section--navy .geo__fill--dark{ background:var(--gold); }
 .section--navy .dates li{ border-bottom-color:rgba(255,255,255,0.15); }
 .section--navy .tier--presenting{ border:2px solid rgba(255,255,255,0.22); }
+
+/* ---------- Home page sponsor wall ----------
+   Rows run Presenting, Gold, Silver. Every tile is a link to the sponsor.
+   Gold and Silver tiles are white, so logos there should be dark artwork.
+   The Presenting tile is navy because the SanMar wordmark is white. */
+.sponsors{ padding-bottom:0; }
+.sponsor-wall{ display:grid; gap:28px; }
+.sponsor-row__label{
+  font-family:var(--font-mono); font-size:0.75rem; font-weight:600;
+  letter-spacing:0.1em; text-transform:uppercase; color:var(--grey);
+  margin:0 0 10px;
+}
+.sponsor-row__tiles{ display:grid; gap:14px; }
+.sponsor-row--presenting .sponsor-row__tiles{ grid-template-columns:minmax(0,520px); }
+.sponsor-row--gold .sponsor-row__tiles{ grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
+.sponsor-row--silver .sponsor-row__tiles{ grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); }
+.sponsor-tile{
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  background:var(--white); border:2px solid var(--grey-light);
+  border-radius:var(--radius-block); padding:20px; min-height:96px;
+  color:var(--navy); text-decoration:none;
+  transition:border-color .15s ease, transform .15s ease;
+}
+.sponsor-tile:hover, .sponsor-tile:focus-visible{ border-color:var(--gold); transform:translateY(-2px); }
+.sponsor-tile:focus-visible{ outline:3px solid var(--sky-deep); outline-offset:2px; }
+.sponsor-tile img{ display:block; max-width:100%; max-height:56px; width:auto; height:auto; }
+.sponsor-tile__name{
+  font-family:var(--font-display); text-transform:uppercase; font-size:1.05rem; line-height:1.2;
+}
+.sponsor-tile--presenting{ background:var(--navy); border-color:var(--navy); min-height:140px; padding:28px 36px; }
+.sponsor-tile--presenting img{ max-height:64px; }
+.sponsor-tile--presenting .sponsor-tile__name{ color:var(--white); font-size:1.6rem; }
+.sponsor-tile--gold{ min-height:116px; }
+.sponsor-tile--gold img{ max-height:64px; }
+.sponsor-tile--gold .sponsor-tile__name{ font-size:1.25rem; }
+.sponsor-tile--silver img{ max-height:44px; }
+@media (max-width:560px){
+  .sponsor-row--gold .sponsor-row__tiles, .sponsor-row--silver .sponsor-row__tiles{ grid-template-columns:1fr 1fr; }
+  .sponsor-tile{ padding:14px; min-height:80px; }
+  .sponsor-tile__name{ font-size:0.9rem; }
+  .sponsor-tile--gold .sponsor-tile__name{ font-size:1rem; }
+  .sponsor-tile--presenting{ min-height:104px; padding:22px; }
+  .sponsor-tile--presenting img{ max-height:44px; }
+}
+@media (prefers-reduced-motion:reduce){ .sponsor-tile{ transition:none; } .sponsor-tile:hover{ transform:none; } }
