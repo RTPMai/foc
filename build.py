@@ -27,6 +27,18 @@ IG              = "https://www.instagram.com/flyover_con/"
 FB              = "https://www.facebook.com/profile.php?id=61556233233152"
 OUT             = "site"
 
+# Google Analytics 4. alliteration's WebsiteWidget reads this property, so if
+# the tag drops off a page that page goes dark in the dashboard. verify.py
+# fails the build if any page is missing it.
+GA_ID           = "G-VEZV2P4N23"
+GA_TAG          = f"""<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){{dataLayer.push(arguments);}}
+gtag('js', new Date());
+gtag('config', '{GA_ID}');
+</script>"""
+
 # FOC27 is presented by SanMar. The presenting sponsor lockups carry the
 # sponsor credit wherever there is room to read it (home hero, footer). The nav
 # is too small for "presented by" to be legible, so it gets the 2027 badge
@@ -155,7 +167,8 @@ def sponsor_wall():
 RAW_PAGES = {
     "survey": {
         "src": "src/survey.html",
-        "subs": {'var ENDPOINT = "";': f'var ENDPOINT = "{SURVEY_ENDPOINT}";'},
+        "subs": {'var ENDPOINT = "";': f'var ENDPOINT = "{SURVEY_ENDPOINT}";',
+                 "</head>": GA_TAG + "\n</head>"},
     },
 }
 
@@ -1344,6 +1357,7 @@ def head(page, key):
 <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/css/style.css">
 {schema}
+{GA_TAG}
 </head>
 <body>
 """

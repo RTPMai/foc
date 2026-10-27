@@ -264,6 +264,16 @@ def check_form_endpoints():
             fail(f"{name}: ENDPOINT points off domain -> {url}")
 
 
+GA_ID = "G-VEZV2P4N23"
+
+
+def check_analytics(pages):
+    """Every page must load the GA4 tag, or WebsiteWidget reads zero for it."""
+    for p, html in pages:
+        if f"googletagmanager.com/gtag/js?id={GA_ID}" not in html or f"gtag('config', '{GA_ID}')" not in html:
+            fail(f"{p}: GA4 tag {GA_ID} missing")
+
+
 def check_assets_resolve(pages):
     """Every local asset reference must exist on disk."""
     for p, html in pages:
@@ -294,6 +304,7 @@ def main():
     check_vercel_config()
     check_noindex_pages(pages)
     check_assets_resolve(pages)
+    check_analytics(pages)
 
     print(f"verify: {len(pages)} pages checked")
     for n in notes:
