@@ -65,7 +65,9 @@ SPEAKERS_NOTIFIED = "December 11, 2026"
 MATERIALS_DUE     = "February 12, 2027"
 
 # FOC27 sponsors shown on the home page. Each entry is (name, tier, url, logo).
-# tier is "presenting", "gold" or "silver" and sets the row it lands in.
+# tier is "presenting", "gold", "silver" or "media" and sets the row it lands in.
+# "media" is for media partners: not a paid level, so it never touches the
+# level cards or Gold availability, it only adds a Media Partner row last.
 # logo is a path under assets/img/sponsors/, or None. With no logo (or a logo
 # path whose file is missing) the tile renders the sponsor name as text, so the
 # build never ships a broken image. To add a logo: drop the file in
@@ -79,6 +81,7 @@ SPONSORS = [
     ("S&amp;S Activewear", "silver",     "https://www.ssactivewear.com",      "/assets/img/sponsors/ss-activewear.png"),
     ("Chipply",            "silver",     "https://www.chipply.com",           "/assets/img/sponsors/chipply.png"),
     ("Atonal Headwear",    "silver",     "https://www.atonalheadwear.com",    "/assets/img/sponsors/atonal-headwear.png"),
+    ("Apparelist",         "media",      "https://apparelist.com",            "/assets/img/sponsors/apparelist.png"),
 ]
 
 # Gold is capped. Availability is counted from SPONSORS, so adding a Gold
@@ -119,7 +122,8 @@ SPONSOR_TIERS = [
 
 def sponsor_wall():
     rows = []
-    for tier, label in (("presenting", "Presented By"), ("gold", "Gold"), ("silver", "Silver")):
+    for tier, label in (("presenting", "Presented By"), ("gold", "Gold"), ("silver", "Silver"),
+                        ("media", "Media Partner")):
         pool = [x for x in SPONSORS if x[1] == tier]
         if not pool:
             continue
@@ -1517,6 +1521,7 @@ FOC27 is confirmed for April 16 and 17, 2027, at the same location, capped at 75
 - Contact: {EMAIL}
 - Hosted by: P&M Apparel, {PARENT_URL}
 - FOC27 presenting sponsor: {PRESENTING_SPONSOR}
+- FOC27 media partner: Apparelist
 """
 
 VERCEL = json.dumps({

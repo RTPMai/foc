@@ -743,6 +743,8 @@ section{ padding:64px 0; }
 .sponsor-tile--presenting img{ max-height:64px; }
 .sponsor-tile--presenting .sponsor-tile__name{ color:var(--white); font-size:1.6rem; }
 .sponsor-tile--gold{ min-height:116px; }
+.sponsor-row--media .sponsor-row__tiles{ grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
+.sponsor-tile--media img{ max-height:72px; }
 .sponsor-tile--gold img{ max-height:64px; }
 .sponsor-tile--gold .sponsor-tile__name{ font-size:1.25rem; }
 .sponsor-tile--silver img{ max-height:44px; }
