@@ -1543,7 +1543,6 @@ def speaker_grid(year=None):
                         f'alt="{alt}" width="96" height="96" loading="lazy" decoding="async">')
         else:
             head_img = f'<div class="speaker__badge">{s["badge"]}</div>'
-        tags = "".join(f'<span class="tag">{y}</span>' for y in s["years"])
         out.append(f"""      <div class="speaker">
         <div class="speaker__head">
           {head_img}
@@ -1553,7 +1552,6 @@ def speaker_grid(year=None):
           </div>
         </div>
         {f'<p class="speaker__bio">{s["bio"]}</p>' if s["bio"] else ""}
-        <div class="speaker__years">{tags}</div>
       </div>""")
     out.append("    </div>")
     return "\n".join(out)
