@@ -4,7 +4,7 @@ Flyover Con static site generator for flyovercon.ink
 Run:  python3 build.py      →  regenerates the entire ./site/ directory
 Never edit ./site/ by hand; it is wiped and rebuilt on every run.
 """
-import json, os, re, shutil, sys
+import html, json, os, re, shutil, sys
 
 # ---------------------------------------------------------------- constants
 BASE            = "https://www.flyovercon.ink"
@@ -176,7 +176,7 @@ RAW_PAGES = {
 # Vercel serves site/ as the deployment root, so site/api/*.js become functions.
 COPY_FILES = ["api/survey.js", "api/notify.js", "api/sponsor.js", "api/speak.js"]
 
-NAV = [("/","Home"),("/about","About"),("/speak","Call for Speakers"),
+NAV = [("/","Home"),("/about","About"),("/speakers","Speakers"),
        ("/sponsor","Sponsor"),("/location","Location"),("/years-past","Years Past")]
 
 # Schedule and Speakers are out of NAV until the FOC27 program is announced;
@@ -196,7 +196,8 @@ SPEAKERS = [
     "bio": "Co-owner of P&amp;M Apparel, a third-generation, family-run decorated apparel company in Iowa. Focuses on long-term strategy, systems, and sales, building scalable processes that support both clients and the internal team. Previously served on the Gildan Board of Decorators and currently serves on the Chipply Client Council.",
     "years": [
       "2024",
-      "2026"
+      "2026",
+      "2027"
     ],
     "photo": "ryan-toney"
   },
@@ -207,7 +208,8 @@ SPEAKERS = [
     "bio": "Co-owner and Art Director of P&amp;M Apparel, overseeing design, production, and day-to-day operations. Named a Screen Printing Magazine Rising Star and recognized as one of the Six Women in Screen Printing in 2024.",
     "years": [
       "2024",
-      "2026"
+      "2026",
+      "2027"
     ],
     "photo": "megan-griffith"
   },
@@ -238,7 +240,8 @@ SPEAKERS = [
     "bio": "Brings extensive hands-on experience in shop operations, customer relationships, and sales strategy. Recognized as a Women in Screen Printing honoree in 2023.",
     "years": [
       "2024",
-      "2026"
+      "2026",
+      "2027"
     ],
     "photo": "christy-shellenberger"
   },
@@ -278,7 +281,8 @@ SPEAKERS = [
     "role": "Senior Manager, Sales &amp; Operations &middot; Chipply",
     "bio": "20-year printwear industry veteran with experience across leading apparel suppliers, pairing deep product knowledge with technology and process strategy for scalable sales growth.",
     "years": [
-      "2026"
+      "2026",
+      "2027"
     ],
     "photo": "meghan-brazzelle"
   },
@@ -308,7 +312,8 @@ SPEAKERS = [
     "role": "Sr Manager &middot; SanMar",
     "bio": "Began in the promotional products industry in 1985 and joined SanMar in 1998. Since 2009 has focused exclusively on supporting the decorator community, and serves on the Board of the Printing United Alliance.",
     "years": [
-      "2026"
+      "2026",
+      "2027"
     ],
     "photo": "mark-bailey"
   },
@@ -338,7 +343,8 @@ SPEAKERS = [
     "role": "Co-Owner &middot; Atonal Headwear / Relentless Merchandising",
     "bio": "Co-Owner of Atonal Headwear and VP of Operations at Relentless Merchandising, with over a decade of experience in operations, product development, and building scalable systems.",
     "years": [
-      "2026"
+      "2026",
+      "2027"
     ],
     "photo": "matt-richardson"
   },
@@ -348,7 +354,8 @@ SPEAKERS = [
     "role": "Owner &middot; Atonal Headwear / Relentless Merchandising",
     "bio": "Owner of Atonal Headwear and Co-Founder of Relentless Merchandising, focused on business development, brand strategy, and long-term growth.",
     "years": [
-      "2026"
+      "2026",
+      "2027"
     ],
     "photo": "nathan-richardson"
   },
@@ -358,9 +365,30 @@ SPEAKERS = [
     "role": "Founder &amp; CEO &middot; Limitless Transfers",
     "bio": "Founder of Limitless Transfers, back-to-back Best DTF award winner in 2024. Educator and content creator known for breaking down complex concepts into practical, shop-ready insights.",
     "years": [
-      "2026"
+      "2026",
+      "2027"
     ],
     "photo": "spencer-chernoff"
+  },
+  {
+    "badge": "BC",
+    "name": "Becki Collier",
+    "role": "Owner &middot; Grace Print House",
+    "bio": "Owner of Grace Print House in California, Missouri, which she opened in 2019 and has grown from one employee to seven, serving schools, local businesses, and customers across the country. Before print, spent years helping small businesses grow as a Regional Director with the American Heart Association and in healthcare marketing.",
+    "years": [
+      "2027"
+    ],
+    "photo": "becki-collier"
+  },
+  {
+    "badge": "JD",
+    "name": "Jim Dalton",
+    "role": "Screen Printer &amp; Production Specialist &middot; 12ozCollective",
+    "bio": "15 years in apparel decoration, 10 of them hands-on at the press, working up from catcher to running his own shop and managing production for others. Now with 12ozCollective in Columbia Falls, Montana, focused on specialty inks, hybrid printing, and making specialty work approachable for shops of any size.",
+    "years": [
+      "2027"
+    ],
+    "photo": "jim-dalton"
   },
   {
     "badge": "AE",
@@ -515,9 +543,9 @@ PAGES = {
     "desc": "Meet the shop owners, operators, and industry partners who speak at Flyover Con, the Midwest's hands-on screen printing and embroidery conference.",
     "canon": "https://www.flyovercon.ink/speakers",
     "schema": [
-      "[{\"@context\": \"https://schema.org\", \"@type\": \"Organization\", \"name\": \"Flyover Con\", \"url\": \"https://www.flyovercon.ink\", \"logo\": \"https://www.flyovercon.ink/assets/img/logo-512.png\", \"sameAs\": [\"https://www.instagram.com/flyover_con/\", \"https://www.facebook.com/profile.php?id=61556233233152\"], \"parentOrganization\": {\"@type\": \"Organization\", \"name\": \"P&M Apparel\", \"url\": \"https://www.pmapparel.com\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"BreadcrumbList\", \"itemListElement\": [{\"@type\": \"ListItem\", \"position\": 1, \"name\": \"Home\", \"item\": \"https://www.flyovercon.ink/\"}, {\"@type\": \"ListItem\", \"position\": 2, \"name\": \"Speakers\", \"item\": \"https://www.flyovercon.ink/speakers\"}]}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Ryan Toney\", \"jobTitle\": \"Owner\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"P&M Apparel\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Megan Griffith\", \"jobTitle\": \"Owner & Art Director\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"P&M Apparel\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Amanda Clark\", \"jobTitle\": \"Financials Manager\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"P&M Apparel\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Alexis Davis\", \"jobTitle\": \"Account Manager\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"P&M Apparel\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Christy Shellenberger\", \"jobTitle\": \"Owner & VP of Sales\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"Rock Hill Screen Printing\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Anna Wardenburg\", \"jobTitle\": \"Events Specialist\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"Iowa Donor Network\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Ali Hansen\", \"jobTitle\": \"Owner\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"Pat Barton Dance Studio\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Amy Benton\", \"jobTitle\": \"Director of Marketing\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"MH Equipment\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Meghan Brazzelle\", \"jobTitle\": \"Senior Manager, Sales & Operations\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"Chipply\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Paul A. Gormley\", \"jobTitle\": \"Digital Marketing & Innovation\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"CIRAS\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Justin Sebren\", \"jobTitle\": \"Co-Owner\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"Lucid Ink\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Mark Bailey\", \"jobTitle\": \"Sr Manager\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"SanMar\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Ryan Snaadt\", \"jobTitle\": \"Owner\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"Snaadt Media Group\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Chris Clark\", \"jobTitle\": \"Territory Manager\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"SanMar\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Matt Richardson\", \"jobTitle\": \"Co-Owner\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"Atonal Headwear / Relentless Merchandising\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Nathan Richardson\", \"jobTitle\": \"Owner\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"Atonal Headwear / Relentless Merchandising\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Spencer Chernoff\", \"jobTitle\": \"Founder & CEO\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"Limitless Transfers\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Ashleigh & Elena Leon\", \"jobTitle\": \"Owners\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"The Side Garage\"}}, {\"@context\": \"https://schema.org\", \"@type\": \"Person\", \"name\": \"Russ Corey\", \"jobTitle\": \"Strategic Account Manager\", \"worksFor\": {\"@type\": \"Organization\", \"name\": \"SanMar\"}}]"
+      "__SPEAKERS_SCHEMA_2027__"
     ],
-    "main": f"\n\n<section class=\"hero\" style=\"padding:56px 0;\">\n  <div class=\"container hero__inner\">\n    <div class=\"hero__eyebrow\">FOC27</div>\n    <h1 style=\"font-size:clamp(2.2rem,5vw,3.4rem);\">Speakers</h1>\n    <p class=\"hero__lead\">FOC27 is April 16 and 17, 2027. The lineup hasn't been announced yet, because the call for speakers is open right now and the program is still being built.</p>\n  </div>\n</section>\n\n<section>\n  <div class=\"container\">\n    <div class=\"plaque\" style=\"margin-bottom:24px;\">\n      <p class=\"plaque__text\">Call for Speakers: Open</p>\n    </div>\n    <p style=\"max-width:60ch;color:var(--grey);\">Proposals for FOC27 close {PROPOSALS_CLOSE}. We are looking for people who will teach a task rather than pitch a product, and first time speakers are genuinely welcome. Sessions, live demos at the equipment, and panel seats are all open.</p>\n    <p style=\"margin-top:24px;display:flex;gap:16px;flex-wrap:wrap;\"><a class=\"btn btn--gold\" href=\"{SPEAK_URL}\">Submit a Session</a><a class=\"btn btn--outline\" href=\"/years-past\">See Past Speakers</a></p>\n  </div>\n</section>\n"
+    "main": "\n\n<section class=\"hero\" style=\"padding:56px 0;\">\n  <div class=\"container hero__inner\">\n    <div class=\"hero__eyebrow\">FOC27: April 16&ndash;17, 2027</div>\n    <h1 style=\"font-size:clamp(2.2rem,5vw,3.4rem);\">Speakers</h1>\n    <p class=\"hero__lead\">Shop owners, operators, and industry partners teaching what actually works. More names land here as they are confirmed.</p>\n  </div>\n</section>\n\n<section>\n  <div class=\"container\">\n__SPEAKERS_GRID_2027__\n    <p style=\"margin-top:40px;display:flex;gap:16px;flex-wrap:wrap;\"><a class=\"btn btn--gold\" href=\"/notify\">Get Notified for FOC27</a></p>\n  </div>\n</section>\n"
   },
   "location": {
     "title": "Location | Flyover Con at P&M Apparel, Polk City IA",
@@ -1496,10 +1524,28 @@ def speaker_grid(year=None):
     out.append("    </div>")
     return "\n".join(out)
 
+def _speaker_people(year):
+    out = []
+    for p in SPEAKERS:
+        if year not in p["years"]:
+            continue
+        parts = p["role"].split(" &middot; ")
+        d = {"@context": "https://schema.org", "@type": "Person",
+             "name": html.unescape(p["name"])}
+        if len(parts) == 2:
+            d["jobTitle"] = html.unescape(parts[0])
+            d["worksFor"] = {"@type": "Organization", "name": html.unescape(parts[1])}
+        out.append(json.dumps(d))
+    return ", ".join(out)
+
+PAGES["speakers"]["schema"] = ["[" + _ORG_SCHEMA + ", " + _crumbs("Speakers", "/speakers")
+                               + ", " + _speaker_people("2027") + "]"]
+
 def render(key):
     page = PAGES[key]
     body = page["main"].replace("__SPEAKERS_2026__", speaker_mini(year="2026"))
     body = body.replace("__SPEAKERS_2024__", speaker_mini(year="2024"))
+    body = body.replace("__SPEAKERS_GRID_2027__", speaker_grid(year="2027"))
     return head(page, key) + nav(key) + body + footer()
 
 # ---------------------------------------------------------------- side files
