@@ -333,7 +333,8 @@ SPEAKERS = [
     "role": "Territory Manager &middot; SanMar",
     "bio": "Supports decorators and distributors across Nebraska and Iowa, working closely with shop owners to navigate product selection, operational challenges, and growth opportunities.",
     "years": [
-      "2026"
+      "2026",
+      "2027"
     ],
     "photo": "chris-clark"
   },
@@ -391,6 +392,26 @@ SPEAKERS = [
     "photo": "jim-dalton"
   },
   {
+    "badge": "DM",
+    "name": "Daniel Morgan",
+    "role": "Gildan",
+    "bio": "",
+    "years": [
+      "2027"
+    ],
+    "photo": None
+  },
+  {
+    "badge": "JK",
+    "name": "Joey Kedl",
+    "role": "Gildan",
+    "bio": "",
+    "years": [
+      "2027"
+    ],
+    "photo": None
+  },
+  {
     "badge": "AE",
     "name": "Ashleigh &amp; Elena Leon",
     "role": "Owners &middot; The Side Garage",
@@ -406,7 +427,8 @@ SPEAKERS = [
     "role": "Strategic Account Manager &middot; SanMar",
     "bio": "Strategic Account Manager on SanMar's Decorator Solutions Team, based in Michigan and covering the Midwest, with over 30 years of experience in heat application decoration.",
     "years": [
-      "2026"
+      "2026",
+      "2027"
     ],
     "photo": "russ-corey"
   },
@@ -1499,6 +1521,8 @@ def speaker_mini(year):
 
 def speaker_grid(year=None):
     pool = [s for s in SPEAKERS if year is None or year in s["years"]]
+    # Host team goes last: guests first, P&M Apparel at the bottom.
+    pool.sort(key=lambda s: "P&amp;M Apparel" in s["role"])
     out = ['<div class="speaker-grid">']
     for s in pool:
         if s["photo"]:
@@ -1518,7 +1542,7 @@ def speaker_grid(year=None):
             <p class="speaker__role">{s["role"]}</p>
           </div>
         </div>
-        <p class="speaker__bio">{s["bio"]}</p>
+        {f'<p class="speaker__bio">{s["bio"]}</p>' if s["bio"] else ""}
         <div class="speaker__years">{tags}</div>
       </div>""")
     out.append("    </div>")
