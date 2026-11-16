@@ -392,6 +392,16 @@ SPEAKERS = [
     "photo": "jim-dalton"
   },
   {
+    "badge": "DE",
+    "name": "Dawn Ealy",
+    "role": "CIRAS",
+    "bio": "Joined CIRAS in 2024 after more than 13 years in consulting, including four running her own practice, focused on strategy, operational systems design, and process improvement. Has worked across healthcare, education, technology, manufacturing, and financial services, with leadership roles at Involta and ConnectFive.",
+    "years": [
+      "2027"
+    ],
+    "photo": "dawn-ealy"
+  },
+  {
     "badge": "DM",
     "name": "Daniel Morgan",
     "role": "Gildan",
