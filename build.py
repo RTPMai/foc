@@ -404,12 +404,12 @@ SPEAKERS = [
   {
     "badge": "DM",
     "name": "Daniel Morgan",
-    "role": "Gildan",
-    "bio": "",
+    "role": "Brand Specialist &middot; Gildan",
+    "bio": "Brand Specialist on Gildan's Customer Engagement Team covering Texas and Oklahoma, handling product education and market feedback with decorators and promo companies, and working with Gildan's quality team on quality concerns. Spent 10 years in a Fort Worth print shop in a variety of roles before joining Gildan.",
     "years": [
       "2027"
     ],
-    "photo": None
+    "photo": "daniel-morgan"
   },
   {
     "badge": "JK",
