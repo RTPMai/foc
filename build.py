@@ -93,6 +93,7 @@ SPONSORS = [
     ("S&amp;S Activewear", "silver",     "https://www.ssactivewear.com",      "/assets/img/sponsors/ss-activewear.png"),
     ("Chipply",            "silver",     "https://www.chipply.com",           "/assets/img/sponsors/chipply.png"),
     ("Atonal Headwear",    "silver",     "https://www.atonalheadwear.com",    "/assets/img/sponsors/atonal-headwear.png"),
+    ("LAT Apparel",        "silver",     "https://www.latapparel.com",        "/assets/img/sponsors/lat-apparel.png"),
     ("Apparelist",         "media",      "https://apparelist.com",            "/assets/img/sponsors/apparelist.png"),
 ]
 
