@@ -414,12 +414,12 @@ SPEAKERS = [
   {
     "badge": "JK",
     "name": "Joey Kedl",
-    "role": "Gildan",
-    "bio": "",
+    "role": "Brand Specialist &middot; Gildan",
+    "bio": "Brand Specialist at Gildan covering Iowa, Missouri, Kansas, Nebraska, the Dakotas, Arkansas, and Louisiana. Works with decorators on brand awareness, product education, and product feedback, showing them what's new from Gildan and answering questions about its products and brands.",
     "years": [
       "2027"
     ],
-    "photo": None
+    "photo": "joey-kedl"
   },
   {
     "badge": "AE",
